@@ -56,6 +56,7 @@ public class ConsumerThread extends RunnableThread {
             case 2:
                 /*line 4: "sleep()" */
                 executeLine4(currentContext);
+                break;
             case 3:
                 /*line 5: "item = remove_item()" */
                 executeLine5(currentContext);
@@ -107,32 +108,44 @@ public class ConsumerThread extends RunnableThread {
     private void executeLine2(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.currentContext;
-        newContext = new ThreadContext(3, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        newContext = new ThreadContext(1, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
     private void executeLine3(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.getCurrentContext();
-        int nextStackPointer = 4;
+        int nextStackPointer = 2;
         
         boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
         /**
          * if the buffer is not empty, 
          * the first instruction after "sleep()" must be executed.
-         * otherwise, Consumer must call "sleep()"
+         * otherwise, Consumer must call "sleep()" and will be blocked
          */
         if (!bufferIsEmpty) {
-            nextStackPointer = 5;
+            nextStackPointer = 3;
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        } else {
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
         }
-        
-        newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+
         this.currentContext = newContext;
     }
 
     private void executeLine4(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        newContext = new ThreadContext(6, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+        boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
+        boolean bufferStillEmpty = (this.bufferOfItems.getBufferSize() == 0);
+        
+        /**checks whether this thread is still blocked (sleeping)  or if the other thread woke up this thread
+         * or the buffer still is empty
+         */
+        if (stillSleeping || bufferStillEmpty) {
+            newContext = new ThreadContext(2, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+        } else {
+            newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+        }
         this.currentContext = newContext;
     }
 
@@ -140,7 +153,7 @@ public class ConsumerThread extends RunnableThread {
         try {
             ThreadContext newContext = null;
             int removedItem = this.bufferOfItems.consumeItem();
-            newContext = new ThreadContext(6, removedItem, Consts.STATUS_THREAD_EXECUTING, this);
+            newContext = new ThreadContext(4, removedItem, Consts.STATUS_THREAD_EXECUTING, this);
             this.currentContext = newContext;
         } catch (BufferUnderflowException ex) {
             ex.printStackTrace();
@@ -150,20 +163,20 @@ public class ConsumerThread extends RunnableThread {
 
     private void executeLine6(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        newContext = new ThreadContext(7, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        newContext = new ThreadContext(5, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
     private void executeLine7(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        int nextStackPointer = 8;
+        int nextStackPointer = 6;
         boolean bufferWasFull = (this.bufferOfItems.getBufferSize() == (Consts.MAX_SIZE_BUFFER - 1));
         /**
          * if buffer was full, then the thread Consumer must wakeup the thread Producer.
          * The wakeup is done by allowing the execution of function executeLine8
          */
         if (!bufferWasFull) {
-            nextStackPointer = 9;
+            nextStackPointer = 7;
         }
         newContext = new ThreadContext(nextStackPointer, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
@@ -172,7 +185,7 @@ public class ConsumerThread extends RunnableThread {
     private void executeLine8(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ProducerThread.getInstance().wakeupProducer();
-        newContext = new ThreadContext(9, this.getCurrentContext().getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        newContext = new ThreadContext(7, this.getCurrentContext().getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 

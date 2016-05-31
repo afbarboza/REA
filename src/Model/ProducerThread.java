@@ -58,6 +58,7 @@ public class ProducerThread extends RunnableThread {
             case 2:
                 /*line 4: "if (count == n)" */
                 executeLine4(currentContext);
+                break;
             case 3:
                 /*line 5: "sleep()" */
                 executeLine5(currentContext);
@@ -167,8 +168,13 @@ public class ProducerThread extends RunnableThread {
      */
     private void executeLine5(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        //newContext = new ThreadContext(5, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
-        if (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+        boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
+        boolean bufferStillFull = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
+        /**
+         * checks whether this thread is still blocked (sleeping)  or if the other thread woke up this thread
+         * or whether the buffer still is full
+         */
+        if (stillSleeping || bufferStillFull) {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
         } else {
             newContext = new ThreadContext(4, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
