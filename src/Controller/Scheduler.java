@@ -13,25 +13,82 @@ import java.util.Stack;
  * @author alex
  */
 public class Scheduler {
-    /*this stack stores the consecutive actions from the user*/
-    private Stack programStatus;
-    /**/
-    
-    public void doContextSwitch() {
-        
+
+    /*the singleton instance of this class*/
+    private static Scheduler sched = null;
+    /*this stack stores the consecutive contexts of threads*/
+    private Stack programStatus = null;
+    /*the single thread producer*/
+    private ProducerThread pt = null;
+    /*the single thread thread consumer*/
+    private ConsumerThread ct = null;
+
+    private Scheduler() {
+        programStatus = new Stack();
+        pt = ProducerThread.getInstance();
+        ct = ConsumerThread.getInstance();
     }
-    
-    public void executeNextProducerInstruction() {
-        
+
+    /**
+     * Makes the context switching between threads.
+     * <p>
+     * This function deactivates the current thread.
+     *
+     * @param codeOfExecution the code of what is next step to be taken in the
+     * program
+     * @return void
+     */
+    public void doContextSwitch(int codeOfExecution) {
+        /*deactivates the current thread*/
+        deactivatesCurrentThread();
+        /*selects the next/last thread to be executed/retrieved*/
+        switch (codeOfExecution) {
+            case (Consts.EXECUTE_NEXT_PRODUCER):
+                pt.executeNextInstruction();
+                break;
+            case (Consts.EXECUTE_NEXT_CONSUMER):
+                ct.executeNextInstruction();
+                break;
+            case (Consts.EXECUTE_BACK):
+                backTrackInstructions();
+                break;
+        }
     }
-    
-    public void executeNextConsumerInstruction() {
-        
+
+    /**
+     * Backtrack the program through back the first instruction.
+     * <p>
+     *
+     * The function checks the owner of the top stack of status (programStatus)
+     * .<p>
+     * Then the stack is popped until the popped element is different from the
+     * recored ancient top of the stack.
+     *
+     * @return void
+     */
+    private void backTrackInstructions() {
     }
-    
-    
-    
-    public void backTrackInstructions() {
-        
+
+    /**
+     * Gets the single instance of Scheduler.<p>
+     *
+     * @return the singleton instance of Scheduler
+     */
+    public static Scheduler getInstance() {
+        if (sched == null) {
+            sched = new Scheduler();
+        }
+        return sched;
+    }
+
+    /**
+     * This function deactivates the current executing thread.
+     *
+     * @see doContextSwitching
+     * @return void
+     */
+    private void deactivatesCurrentThread() {
+        programStatus.push(pt.getCurrentContext());
+        programStatus.push(ct.getCurrentContext());
     }
 }

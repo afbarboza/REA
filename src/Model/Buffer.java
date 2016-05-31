@@ -9,18 +9,23 @@ import java.util.Stack;
 
 /**
  *
- * @author alex
+ * @author Alex Frederico Ramos Barboza
  */
 public class Buffer {
+    /*the singleton instance of Buffer used by threads Producer and Consumer*/
     private static Buffer instanceOfBuffer;
+    /*store the produced and to-be-consumed-items. The buffer has a stack behavior*/
     private static Stack bufferItems;
-    private static int index;
     
     private Buffer() {        
         bufferItems = new Stack();
-        index = 0;
     }
     
+    /**
+     * Consume an item from the top of the buffer.<p>
+     * @return item the item at the top of buffer which will be consumed.
+     * @throws BufferUnderflowException at attempt of taking from an empty buffer
+     */
     public int consumeItem() throws BufferUnderflowException {
         if (bufferItems.empty()) {
             throw new BufferUnderflowException();
@@ -28,14 +33,34 @@ public class Buffer {
         return (int) Buffer.bufferItems.pop();
     }
     
-    public void produceItem() throws BufferOverflowException {
-        if (bufferItems.size() > 5) {
+    /**
+     * Randomly choose an integer value and put at the top of the buffer. <p>
+     * 
+     * @return void
+     * @throws BufferOverflowException 
+     */
+    public void produceItem(int newItem) throws BufferOverflowException {
+        if (bufferItems.size() > Consts.MAX_SIZE_BUFFER) {
             throw new BufferOverflowException();
         }
-        int newItem = (int) (Math.random() * 100.0f);
         Buffer.bufferItems.push(newItem);
     }
+
+    /**
+     * Gets the number of element at stack <p>
+     * 
+     * @return the size of stack of the buffer of items
+     */
+    public int getBufferSize() {
+        return bufferItems.size();
+    }
     
+    /**
+     * Return the singleton instance of buffer. <p>
+     * 
+     * @return instanceOfBuffer the singleton instance of buffer
+     * @see Singleton Design Pattern
+     */
     public static Buffer getInstance() {
         if (instanceOfBuffer == null) {
             instanceOfBuffer = new Buffer();

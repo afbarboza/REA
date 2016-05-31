@@ -10,8 +10,13 @@ package Model;
  * @author alex
  */
 public class Consts {
-    public static final int STATUS_THREAD_PRODUCING =   0;
-    public static final int STATUS_THREAD_CONSUMING =   1;
-    public static final int STATUS_THREAD_EXECUTING =   2;
-    public static final int STATUS_THREAD_SLEEPING =    3;
+    public static final int STATUS_THREAD_EXECUTING =       1;
+    public static final int STATUS_THREAD_BLOCKED =         2;
+    public static final int STATUS_THREAD_READY_TO_EXEC =   3;
+    
+    public static final int EXECUTE_NEXT_CONSUMER = 0;
+    public static final int EXECUTE_NEXT_PRODUCER = 1;
+    public static final int EXECUTE_BACK = 2;
+    
+    public static final int MAX_SIZE_BUFFER = 5;
 }

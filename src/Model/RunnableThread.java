@@ -10,18 +10,35 @@ package Model;
  * @author alex
  */
 public abstract class RunnableThread {
-    protected Status currentStatus;
-
+    /*the current context of the thread*/
+    protected ThreadContext currentContext;
+    /*the buffer owned by the thread*/
+    protected Buffer bufferOfItems;
+    /*this thread is the active thread?*/
+    protected boolean activeThread;
+    
     public RunnableThread() {
         /*constructor code goes here*/
     }
     
-    public Status getCurrentStatus() {
-        return currentStatus;
+    public ThreadContext getCurrentContext() {
+        return currentContext;
     }
 
-    public void setCurrentStatus(Status currentStatus) {
-        this.currentStatus = currentStatus;
+    /**
+     * Sets the new context of the thread.
+     * (i.e.: the item, the stack pointer and its status) <p>
+     * @param currentContext the new context of the thread
+     * @return void
+     */
+    public void setCurrentContext(ThreadContext currentContext) {
+        this.currentContext = currentContext;
     }
+    
+    /**
+     * Simulate the action to be taken by the thread when the next line is executed.
+     * @return void
+     */
+    public abstract void executeNextInstruction();
     
 }

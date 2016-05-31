@@ -6,25 +6,29 @@
 package Model;
 
 /**
- *
- * @author alex
+ * @author Alex Frederico Ramos Barboza
+ * @description This class represent the status of a thread
  */
-public class Status {
+public class ThreadContext {
     /*the next instruction to be executed*/
     private int stackPointer;
     /*the randomly integer produced*/
     private int item;
     /*the current status of the thread*/
     private int status;
-    /*who owns this status? producer or consumer?*/
+    /*who owns this context? producer or consumer?*/
     private RunnableThread ownerThread;
+    /*the current size of the buffer*/
+    private int sizeOfBuffer;
     
-    public Status(int stackPointer, int producedItem, int status) {
+    public ThreadContext(int stackPointer, int producedItem, int status, RunnableThread ownerThread) {
         this.stackPointer = stackPointer;
         this.item = producedItem;
         this.status = status;
+        this.ownerThread = ownerThread;
+        this.sizeOfBuffer = Buffer.getInstance().getBufferSize();
     }
-    
+        
     public int getStackPointer() {
         return stackPointer;
     }
@@ -35,5 +39,9 @@ public class Status {
 
     public int getStatus() {
         return status;
+    }
+        
+    public void setStatus(int newStatus) {
+        this.status = newStatus;
     }
 }
