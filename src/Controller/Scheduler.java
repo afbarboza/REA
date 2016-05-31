@@ -17,7 +17,7 @@ public class Scheduler {
     /*the singleton instance of this class*/
     private static Scheduler sched = null;
     /*this stack stores the consecutive contexts of threads*/
-    private Stack programStatus = null;
+    public Stack programStatus = null;
     /*the single thread producer*/
     private ProducerThread pt = null;
     /*the single thread thread consumer*/
@@ -82,7 +82,7 @@ public class Scheduler {
     }
 
     /**
-     * This function deactivates the current executing thread.
+     * This function deactivates the current executing thread.<p>
      *
      * @see doContextSwitching
      * @return void

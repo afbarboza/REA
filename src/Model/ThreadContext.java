@@ -21,6 +21,7 @@ public class ThreadContext {
     /*the current size of the buffer*/
     private int sizeOfBuffer;
     
+    
     public ThreadContext(int stackPointer, int producedItem, int status, RunnableThread ownerThread) {
         this.stackPointer = stackPointer;
         this.item = producedItem;
