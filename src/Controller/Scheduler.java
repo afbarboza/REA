@@ -13,7 +13,6 @@ import java.util.Stack;
  * @author alex
  */
 public class Scheduler {
-
     /*the singleton instance of this class*/
     private static Scheduler sched = null;
     /*this stack stores the consecutive contexts of threads*/

@@ -117,7 +117,7 @@ public class ProducerThread extends RunnableThread {
     private void executeLine2(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.currentContext;
-        newContext = new ThreadContext(3, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        newContext = new ThreadContext(1, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
@@ -130,7 +130,7 @@ public class ProducerThread extends RunnableThread {
     private void executeLine3(ThreadContext currentContext) {
         ThreadContext newContext = null;
         int tmp = callProduceItem();
-        newContext = new ThreadContext(4, tmp, Consts.STATUS_THREAD_EXECUTING, this);
+        newContext = new ThreadContext(2, tmp, Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
@@ -143,7 +143,7 @@ public class ProducerThread extends RunnableThread {
     private void executeLine4(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.getCurrentContext();
-        int nextStackPointer = 5;
+        int nextStackPointer = 3;
 
         boolean fullBuffer = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
         /**
@@ -151,9 +151,11 @@ public class ProducerThread extends RunnableThread {
          * the next time this thread executes, it goes sleep.
          */
         if (!fullBuffer) {
-            nextStackPointer = 6;
+            nextStackPointer = 4;
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        } else {
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
         }
-        newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
@@ -165,7 +167,12 @@ public class ProducerThread extends RunnableThread {
      */
     private void executeLine5(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        newContext = new ThreadContext(6, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+        //newContext = new ThreadContext(5, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+        if (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+        } else {
+            newContext = new ThreadContext(4, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+        }
         this.currentContext = newContext;
     }
 
@@ -179,7 +186,7 @@ public class ProducerThread extends RunnableThread {
         try {
             ThreadContext newContext = null;
             this.bufferOfItems.produceItem(currentContext.getProducedItem());
-            newContext = new ThreadContext(7, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+            newContext = new ThreadContext(5, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
             this.currentContext = newContext;
         } catch (BufferOverflowException ex) {
             ex.printStackTrace();
@@ -195,8 +202,7 @@ public class ProducerThread extends RunnableThread {
      */
     private void executeLine7(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        newContext = new ThreadContext(8, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
-        this.currentContext = newContext;
+        newContext = new ThreadContext(6, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
@@ -208,7 +214,7 @@ public class ProducerThread extends RunnableThread {
      */
     private void executeLine8(ThreadContext currentContext) {
         ThreadContext newContext = null;
-        int newStackPointer = 9;
+        int newStackPointer = 7;
         
         boolean bufferWasEmpty = (this.bufferOfItems.getBufferSize() == 1);
         if (!bufferWasEmpty) {
@@ -228,6 +234,22 @@ public class ProducerThread extends RunnableThread {
         ThreadContext newContext = null;
         ConsumerThread.getInstance().wakeupConsumer();
         newContext = new ThreadContext(0, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        this.currentContext = newContext;
+    }
+    
+   /**
+     * This function wakeup the thread Producer.
+     * <p>
+     * This is done by recording the current status on stack (of scheduler) and
+     * creating a new status for this thread, with the value
+     * Conts.STATUS_THREAD_READY_TO_EXEC
+     * <p>
+     * @return void
+     */
+    public void wakeupProducer() {
+        ThreadContext myContext = this.getCurrentContext();
+        Scheduler.getInstance().programStatus.push(myContext);
+        ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
         this.currentContext = newContext;
     }
 }

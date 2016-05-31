@@ -18,7 +18,9 @@ public abstract class RunnableThread {
     protected boolean activeThread;
     
     public RunnableThread() {
-        /*constructor code goes here*/
+        this.currentContext = new ThreadContext(-2, -1, Consts.STATUS_THREAD_READY_TO_EXEC, this);
+        this.bufferOfItems = Buffer.getInstance();
+        this.activeThread = true;
     }
     
     public ThreadContext getCurrentContext() {
