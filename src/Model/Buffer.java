@@ -56,6 +56,18 @@ public class Buffer {
     }
     
     /**
+     * This function simply clears the buffer (stack). <p>
+     * This is done by taking out all objects from the stack of items (buffer)
+     * @see Scheduler.pushBufferFrame()
+     * @return void
+     */
+    public void makeBufferEmpty() {
+        while (!bufferItems.empty()) {
+            bufferItems.pop();
+        }
+    }
+    
+    /**
      * Return the singleton instance of buffer. <p>
      * 
      * @return instanceOfBuffer the singleton instance of buffer
@@ -66,5 +78,18 @@ public class Buffer {
             instanceOfBuffer = new Buffer();
         }
         return instanceOfBuffer;
+    }
+    
+    /**
+     * Gets the index-th element from the buffer. <p>
+     * @param index the index of the element to be peek. <p>
+     * @return the element at index-th position
+     */
+    public int get(int index) throws IndexOutOfBoundsException {
+        if (index < 0 || index >= Consts.MAX_SIZE_BUFFER) {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        return ((int) Buffer.bufferItems.get(index));
     }
 }

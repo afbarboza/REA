@@ -75,8 +75,8 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel10" min="-2" pref="190" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jLabel11" min="-2" pref="190" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
+                                      <Component id="jLabel11" min="-2" pref="206" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -262,7 +262,7 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="jTextField6" pref="100" max="32767" attributes="0"/>
+                          <Component id="jTextField6" pref="106" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
