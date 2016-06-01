@@ -61,11 +61,22 @@ public class Scheduler {
      * The function checks the owner of the top stack of status (programStatus)
      * .<p>
      * Then the stack is popped until the popped element is different from the
-     * recored ancient top of the stack.
+     * recored old top of the stack.
      *
      * @return void
      */
     private void backTrackInstructions() {
+       if (programStatus == null || programStatus.empty()) {
+           return;
+       }
+        
+       ThreadContext oldTop = (ThreadContext) programStatus.pop();
+       ThreadContext top = (ThreadContext) programStatus.pop();
+       
+       while (oldTop.getClass().equals(top)) {
+           top = (ThreadContext) programStatus.pop();
+           /**@todo: update user view*/
+       }
     }
 
     /**
