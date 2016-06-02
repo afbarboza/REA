@@ -42,7 +42,7 @@ public class REA {
 
     public static void main(String[] args) {
         Scheduler sched = Scheduler.getInstance();
-        for (int i = 0; i < 5000; i++) {
+        /*for (int i = 0; i < 5000; i++) {
             int tmpRandom = (int) (Math.random() * 100.0);
             if (tmpRandom % 3 == 0) {
                 sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
@@ -56,7 +56,9 @@ public class REA {
                    printScreen();
                 }
             }
-        }
+        }*/
+        MainFrame mf = MainFrame.getInstanceOfMainFrame();
+        mf.setVisible(true);
     }
 
 }
