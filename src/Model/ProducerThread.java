@@ -171,8 +171,8 @@ public class ProducerThread extends RunnableThread {
         boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
         boolean bufferStillFull = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
         /**
-         * checks whether this thread is still blocked (sleeping)  or if the other thread woke up this thread
-         * or whether the buffer still is full
+         * checks whether this thread is still blocked (sleeping) or if the
+         * other thread woke up this thread or whether the buffer still is full
          */
         if (stillSleeping || bufferStillFull) {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
@@ -221,7 +221,7 @@ public class ProducerThread extends RunnableThread {
     private void executeLine8(ThreadContext currentContext) {
         ThreadContext newContext = null;
         int newStackPointer = 7;
-        
+
         boolean bufferWasEmpty = (this.bufferOfItems.getBufferSize() == 1);
         if (!bufferWasEmpty) {
             newStackPointer = 0;
@@ -242,8 +242,8 @@ public class ProducerThread extends RunnableThread {
         newContext = new ThreadContext(0, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
-    
-   /**
+
+    /**
      * This function wakeup the thread Producer.
      * <p>
      * This is done by recording the current status on stack (of scheduler) and
@@ -254,8 +254,10 @@ public class ProducerThread extends RunnableThread {
      */
     public void wakeupProducer() {
         ThreadContext myContext = this.getCurrentContext();
-        Scheduler.getInstance().programStatus.push(myContext);
-        ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
-        this.currentContext = newContext;
+        if (myContext.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            Scheduler.getInstance().programStatus.push(myContext);
+            ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+            this.currentContext = newContext;
+        }
     }
 }

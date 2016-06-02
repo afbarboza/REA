@@ -83,11 +83,13 @@ public class ConsumerThread extends RunnableThread {
     }
 
     /**
-     * Consume (print) the item whick has been taken from the buffer by thread Consumer. <p>
+     * Consume (print) the item whick has been taken from the buffer by thread
+     * Consumer.
+     * <p>
      * @return void
      */
     public void callConsumeItem(int item) {
-       System.out.println("item " + item);
+        System.out.println("item " + item);
     }
 
     /**
@@ -116,18 +118,18 @@ public class ConsumerThread extends RunnableThread {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.getCurrentContext();
         int nextStackPointer = 2;
-        
+
         boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
         /**
-         * if the buffer is not empty, 
-         * the first instruction after "sleep()" must be executed.
-         * otherwise, Consumer must call "sleep()" and will be blocked
+         * if the buffer is not empty, the first instruction after "sleep()"
+         * must be executed. otherwise, Consumer must call "sleep()" and will be
+         * blocked
          */
         if (!bufferIsEmpty) {
             nextStackPointer = 3;
             newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         } else {
-            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         }
 
         this.currentContext = newContext;
@@ -137,11 +139,12 @@ public class ConsumerThread extends RunnableThread {
         ThreadContext newContext = null;
         boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
         boolean bufferStillEmpty = (this.bufferOfItems.getBufferSize() == 0);
-        
-        /**checks whether this thread is still blocked (sleeping)  or if the other thread woke up this thread
-         * or the buffer still is empty
+
+        /**
+         * checks whether this thread is still blocked (sleeping) or if the
+         * other thread woke up this thread or the buffer still is empty
          */
-        if (stillSleeping || bufferStillEmpty) {
+        if (stillSleeping) {
             newContext = new ThreadContext(2, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
         } else {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
@@ -172,8 +175,9 @@ public class ConsumerThread extends RunnableThread {
         int nextStackPointer = 6;
         boolean bufferWasFull = (this.bufferOfItems.getBufferSize() == (Consts.MAX_SIZE_BUFFER - 1));
         /**
-         * if buffer was full, then the thread Consumer must wakeup the thread Producer.
-         * The wakeup is done by allowing the execution of function executeLine8
+         * if buffer was full, then the thread Consumer must wakeup the thread
+         * Producer. The wakeup is done by allowing the execution of function
+         * executeLine8
          */
         if (!bufferWasFull) {
             nextStackPointer = 7;
@@ -207,8 +211,11 @@ public class ConsumerThread extends RunnableThread {
      */
     public void wakeupConsumer() {
         ThreadContext myContext = this.getCurrentContext();
-        Scheduler.getInstance().programStatus.push(myContext);
-        ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
-        this.currentContext = newContext;
+
+        if (myContext.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            Scheduler.getInstance().programStatus.push(myContext);
+            ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+            this.currentContext = newContext;
+        }
     }
 }

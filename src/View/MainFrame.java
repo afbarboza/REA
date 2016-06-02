@@ -8,9 +8,19 @@ package View;
 import java.awt.Component;
 import Model.*;
 import Controller.*;
+import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -26,14 +36,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     /*the context of thread Producer*/
     ThreadContext producer = null;
-    
+
     /*reference to the singleton buffer*/
     Buffer buff = null;
-    
+
     /*the context of thread Consumer*/
     ThreadContext consumer = null;
-    
+
+    /*the string printed in jTextArea, telling the steps the program is taking*/
+    private String verboseEnglish;
+    private String verbosePortuguese;
+
     private int defaultHeight;
+
     /**
      * Creates new form MainFrame
      */
@@ -44,6 +59,8 @@ public class MainFrame extends javax.swing.JFrame {
         producer = ProducerThread.getInstance().getCurrentContext();
         consumer = ConsumerThread.getInstance().getCurrentContext();
         buff = Buffer.getInstance();
+        verboseEnglish = "";
+        verbosePortuguese = "";
     }
 
     public static MainFrame getInstanceOfMainFrame() {
@@ -58,6 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
         updateViewPaneConsumer();
         updateViewPaneBuffer();
         updateViewPaneCounter();
+        updateViewCodeConsumer();
     }
 
     public void viewEnglishLanguage() {
@@ -92,20 +110,61 @@ public class MainFrame extends javax.swing.JFrame {
 
     void updateViewCodeProducer() {
         int currentStackPointer = producer.getStackPointer();
+        switch (currentStackPointer) {
+            case -2:
+                break;
+            case -1:
+                break;
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+        }
     }
-    
+
     void updateViewCodeConsumer() {
+        int currentLineCode = consumer.getStackPointer();
+        String imageName;
         
+        switch (currentLineCode) {
+            case -2:
+                imageName = "./img/c1.jpeg";
+                break;
+            case -1:
+                imageName = "./img/c2.jpeg";
+                break;
+            case 0:
+                imageName = "./img/c3.jpeg";
+                break;
+            default:
+                imageName = "./img/c1.jpeg";
+                break;
+        }
+        ImageIcon icon = new ImageIcon(imageName);
+        icon.getImage().flush();
+        jLabel3.setIcon(icon);
     }
-    
+
     void updateViewPaneProducer() {
         int currentProducerStatus;
         producer = ProducerThread.getInstance().getCurrentContext();
-        
+
         jTextField1.setText(String.valueOf(producer.getStackPointer() + 2));
         jTextField2.setText(String.valueOf(producer.getProducedItem()));
         currentProducerStatus = producer.getStatus();
-        switch(currentProducerStatus) {
+        switch (currentProducerStatus) {
             case Consts.STATUS_THREAD_EXECUTING:
                 jTextField3.setText("Executando");
                 break;
@@ -117,11 +176,11 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
         }
     }
-    
+
     void updateViewPaneConsumer() {
         int currentConsumerStatus;
         consumer = ConsumerThread.getInstance().getCurrentContext();
-        
+
         jTextField4.setText(String.valueOf(consumer.getStackPointer() + 2));
         jTextField5.setText(String.valueOf(consumer.getProducedItem()));
         currentConsumerStatus = consumer.getStatus();
@@ -136,22 +195,22 @@ public class MainFrame extends javax.swing.JFrame {
                 jTextField6.setText("Dormindo");
                 break;
         }
-        
+
     }
-    
+
     void updateViewPaneCounter() {
         jTextField7.setText(String.valueOf(buff.getBufferSize()));
     }
-    
+
     void updateViewPaneBuffer() {
-        int i  = 0;
+        int i = 0;
         JTextField slots[] = new JTextField[5];
         slots[0] = jTextField8;
         slots[1] = jTextField9;
         slots[2] = jTextField10;
         slots[3] = jTextField11;
         slots[4] = jTextField12;
-        
+
         for (i = 0; i < Consts.MAX_SIZE_BUFFER; i++) {
             if (i < buff.getBufferSize()) {
                 slots[i].setText(String.valueOf(buff.get(i)));
@@ -159,10 +218,10 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 slots[i].setVisible(false);
             }
-          
+
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,7 +279,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/producer1.png"))); // NOI18N
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(java.awt.Color.white);
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consumidor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jPanel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -265,9 +324,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField4)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                    .addComponent(jTextField4)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,9 +623,7 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -691,13 +747,46 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-      sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
-      updateView();
+        String str;
+        if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            verboseEnglish += "> Thread Producer is sleeping and cannot be executed.\n";
+            verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+        } else {
+            verboseEnglish += "> Scheduling Thread Producer.\n";
+            verbosePortuguese += "> Escalonando Thread Consumidor\n";
+            sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
+            updateView();
+            if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+                 verboseEnglish += "> Thread Producer now is sleeping\n";
+                verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+            }
+        }
+        
+        jTextArea1.setText("");
+        jTextArea1.setText(verboseEnglish);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
-        updateView();
+        /*sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
+        updateView(); */
+        String str;
+        if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            verboseEnglish += "> Thread Consumer is sleeping and cannot be executed.\n";
+            verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
+        } else {
+            verboseEnglish += "> Scheduling Thread Consumer.\n";
+            verbosePortuguese += "> Escalonando Thread Consumidor\n";
+            sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
+            updateView();
+            if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+                
+                 verboseEnglish += "> Thread Consumer now is sleeping\n";
+                verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
+            }
+        }
+        
+        jTextArea1.setText("");
+        jTextArea1.setText(verboseEnglish);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
