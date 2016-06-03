@@ -117,7 +117,7 @@ public class ConsumerThread extends RunnableThread {
     private void executeLine3(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.getCurrentContext();
-        int nextStackPointer = 2;
+        int nextStackPointer = 0;
 
         boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
         /**
@@ -125,13 +125,13 @@ public class ConsumerThread extends RunnableThread {
          * must be executed. otherwise, Consumer must call "sleep()" and will be
          * blocked
          */
-        if (!bufferIsEmpty) {
-            nextStackPointer = 3;
-            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+        if (bufferIsEmpty) {
+            nextStackPointer = 2;
         } else {
-            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
+            nextStackPointer = 3;
         }
 
+        newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
@@ -212,6 +212,7 @@ public class ConsumerThread extends RunnableThread {
     public void wakeupConsumer() {
         ThreadContext myContext = this.getCurrentContext();
 
+        /*The thread can be blocked if, and only if, was sleeping (blocked)*/
         if (myContext.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
             Scheduler.getInstance().programStatus.push(myContext);
             ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
