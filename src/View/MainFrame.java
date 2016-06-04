@@ -49,6 +49,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private int defaultHeight;
 
+    /*stores the last thread executed
+    true - thread producer
+    false - thread consumer*/
+    private boolean priorThreadExecuted;
+    
     /**
      * Creates new form MainFrame
      */
@@ -70,13 +75,26 @@ public class MainFrame extends javax.swing.JFrame {
         return instanceOfMainFrame;
     }
 
-    public void updateView() {
+    /*public void updateView() {
         updateViewPaneProducer();
         updateViewPaneConsumer();
         updateViewPaneBuffer();
-        //updateViewPaneCounter();
         updateViewCodeConsumer();
         updateViewCodeProducer();
+    }*/
+    
+    public void updateProducer() {
+        priorThreadExecuted = true;
+        updateViewPaneProducer();
+        updateViewPaneBuffer();
+        updateViewCodeProducer();
+    }
+    
+    public void updateConsumer() {
+        priorThreadExecuted = false;
+        updateViewPaneConsumer();
+        updateViewPaneBuffer();
+        updateViewCodeConsumer();
     }
 
     public void viewEnglishLanguage() {
@@ -209,7 +227,8 @@ public class MainFrame extends javax.swing.JFrame {
         int currentProducerStatus;
         producer = ProducerThread.getInstance().getCurrentContext();
 
-        jTextField1.setText(String.valueOf(producer.getStackPointer() + 2));
+        //jTextField1.setText(String.valueOf(producer.getStackPointer() + 2));
+        jTextField1.setText(getImageLineProducer());
         jTextField2.setText(String.valueOf(producer.getProducedItem()));
         currentProducerStatus = producer.getStatus();
         switch (currentProducerStatus) {
@@ -221,10 +240,9 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             case Consts.STATUS_THREAD_BLOCKED:
                 jTextField3.setText("Dormindo");
+                break;
             case Consts.STATUS_THREAD_GOING_BLOCK:
                 jTextField3.setText("Executando");
-                JOptionPane.showMessageDialog(null,"A thread Consumidor está executando.\n"
-                        + "Entretanto o buffer está vazio. Essa thread irá dormir.\n");
                 break;
         }
     }
@@ -233,7 +251,8 @@ public class MainFrame extends javax.swing.JFrame {
         int currentConsumerStatus;
         consumer = ConsumerThread.getInstance().getCurrentContext();
 
-        jTextField4.setText(String.valueOf(consumer.getStackPointer() + 2));
+        //jTextField4.setText(String.valueOf(consumer.getStackPointer() + 2));
+        jTextField4.setText(getImageLineConsumer());
         jTextField5.setText(String.valueOf(consumer.getProducedItem()));
         currentConsumerStatus = consumer.getStatus();
         switch (currentConsumerStatus) {
@@ -248,8 +267,6 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             case Consts.STATUS_THREAD_GOING_BLOCK:
                 jTextField6.setText("Executando");
-                JOptionPane.showMessageDialog(null,"A thread Consumidor está executando.\n"
-                        + "Entretanto o buffer está vazio. Essa thread irá dormir.\n");
                 break;
         }
 
@@ -278,6 +295,84 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
         }
+    }
+
+    String getImageLineConsumer() {
+        int currentLine = consumer.getStackPointer();
+        String retval = "0";
+
+        switch (currentLine) {
+            case -2:
+                retval = "1";
+                break;
+            case -1:
+                retval = "2";
+                break;
+            case 0:
+                retval = "4";
+                break;
+            case 1:
+                retval = "6";
+                break;
+            case 2:
+                retval = "7";
+                break;
+            case 3:
+                retval = "9";
+                break;
+            case 4:
+                retval = "10";
+                break;
+            case 5:
+                retval = "11";
+                break;
+            case 6:
+                retval = "12";
+                break;
+            case 7:
+                retval = "14";
+                break;
+        }
+        return retval;
+    }
+
+    String getImageLineProducer() {
+        int currentLine = producer.getStackPointer();
+        String retval = "0";
+
+        switch (currentLine) {
+            case -2:
+                retval = "1";
+                break;
+            case -1:
+                retval = "2";
+                break;
+            case 0:
+                retval = "4";
+                break;
+            case 1:
+                retval = "6";
+                break;
+            case 2:
+                retval = "7";
+                break;
+            case 3:
+                retval = "8";
+                break;
+            case 4:
+                retval = "10";
+                break;
+            case 5:
+                retval = "11";
+                break;
+            case 6:
+                retval = "12";
+                break;
+            case 7:
+                retval = "13";
+                break;
+        }
+        return retval;
     }
 
     /**
@@ -810,11 +905,16 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             verboseEnglish += "> Scheduling Thread Producer.\n";
             verbosePortuguese += "> Escalonando Thread Consumidor\n";
+
             sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
-            updateView();
+            updateProducer();
+
             if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
                 verboseEnglish += "> Thread Producer now is sleeping\n";
                 verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+            }  else if (producer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
+                JOptionPane.showMessageDialog(null, "A thread Produtor está acordada e executando.\n"
+                        + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
             }
         }
 
@@ -832,12 +932,18 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             verboseEnglish += "> Scheduling Thread Consumer.\n";
             verbosePortuguese += "> Escalonando Thread Consumidor\n";
+
             sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
-            updateView();
-            if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            updateConsumer();
+
+            if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
 
                 verboseEnglish += "> Thread Consumer now is sleeping\n";
                 verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
+
+            } else if (consumer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
+                JOptionPane.showMessageDialog(null, "A thread Consumidor está acordada e executando.\n"
+                        + "Entretanto o buffer está vazio. Está thread terá que ir dormir.\n");
             }
         }
 
@@ -847,7 +953,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         sched.doContextSwitch(Consts.EXECUTE_BACK);
-        updateView();
+        if (priorThreadExecuted) {
+            updateProducer();
+        } else {
+            updateConsumer();
+        }
+        //updateView();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed

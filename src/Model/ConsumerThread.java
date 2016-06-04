@@ -119,7 +119,9 @@ public class ConsumerThread extends RunnableThread {
         ThreadContext oldContext = this.getCurrentContext();
         int nextStackPointer = 0;
 
-        boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
+        //boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
+        boolean bufferIsEmpty = (oldContext.readRegisterBufferSize() == 0);
+        
         /**
          * if the buffer is not empty, the first instruction after "sleep()"
          * must be executed. otherwise, Consumer must call "sleep()" and will be

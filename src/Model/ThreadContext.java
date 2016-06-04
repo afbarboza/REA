@@ -45,4 +45,8 @@ public class ThreadContext {
     public void setStatus(int newStatus) {
         this.status = newStatus;
     }
+    
+    public int readRegisterBufferSize() {
+        return this.sizeOfBuffer;
+    }
 }
