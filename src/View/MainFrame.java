@@ -260,7 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jTextField6.setText("Executando");
                 break;
             case Consts.STATUS_THREAD_READY_TO_EXEC:
-                jTextField6.setText("Pronto");
+                jTextField6.setText("Pronto para executar");
                 break;
             case Consts.STATUS_THREAD_BLOCKED:
                 jTextField6.setText("Dormindo");
@@ -288,10 +288,8 @@ public class MainFrame extends javax.swing.JFrame {
         for (i = 0; i < Consts.MAX_SIZE_BUFFER; i++) {
             if (i < buff.getBufferSize()) {
                 slots[i].setText(String.valueOf(buff.get(i)));
-                slots[i].setVisible(true);
             } else {
-                slots[i].setText(" ");
-                slots[i].setVisible(false);
+                slots[i].setText(" "); 
             }
 
         }
@@ -877,7 +875,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (jCheckBox1.getSelectedObjects() == null) {
             jTextArea1.setVisible(false);
-            this.setSize(this.getWidth(), this.defaultHeight - 140);
+            this.setSize(this.getWidth(), this.defaultHeight - 120);
         } else {
             jTextArea1.setVisible(true);
             this.setSize(this.getWidth(), this.defaultHeight);
@@ -888,8 +886,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jComboBox1.getSelectedIndex() == 0) {
             viewPortugueseLanguage();
+            jTextArea1.setText(verbosePortuguese);
         } else {
             viewEnglishLanguage();
+            jTextArea1.setText(verboseEnglish);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -904,7 +904,7 @@ public class MainFrame extends javax.swing.JFrame {
             verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
         } else {
             verboseEnglish += "> Scheduling Thread Producer.\n";
-            verbosePortuguese += "> Escalonando Thread Consumidor\n";
+            verbosePortuguese += "> Escalonando Thread Produtor\n";
 
             sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
             updateProducer();
@@ -917,9 +917,14 @@ public class MainFrame extends javax.swing.JFrame {
                         + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
             }
         }
-
+        
         jTextArea1.setText("");
-        jTextArea1.setText(verboseEnglish);
+        if (jComboBox1.getSelectedIndex() == 0) {
+            jTextArea1.setText(verbosePortuguese);
+        } else {
+            jTextArea1.setText(verboseEnglish);
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -948,7 +953,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         jTextArea1.setText("");
-        jTextArea1.setText(verboseEnglish);
+        if (jComboBox1.getSelectedIndex() == 0) {
+            jTextArea1.setText(verbosePortuguese);
+        } else {
+            jTextArea1.setText(verboseEnglish);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
