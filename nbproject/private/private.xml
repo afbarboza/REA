@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Bruno%20Stefano/Documents/GitHub/REA/src/View/MainFrame.java</file>
             <file>file:/C:/Users/Bruno%20Stefano/Documents/GitHub/REA/src/rea/REA.java</file>
             <file>file:/C:/Users/Bruno%20Stefano/Documents/GitHub/REA/src/Model/ThreadContext.java</file>
             <file>file:/C:/Users/Bruno%20Stefano/Documents/GitHub/REA/src/Model/ConsumerThread.java</file>
+=======
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MainFrame.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ProducerThread.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ConsumerThread.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageSleep.java</file>
+>>>>>>> 1250017c521aa1f52694e94cb739ce6bb2879f02
         </group>
     </open-files>
 </project-private>
