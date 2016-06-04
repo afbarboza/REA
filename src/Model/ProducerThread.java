@@ -148,14 +148,14 @@ public class ProducerThread extends RunnableThread {
 
         boolean fullBuffer = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
         /**
-         * if buffer is not full, then the thread must keep goes on, otherwise,
+         * if buffer is not full, then the thread must keep going on, otherwise,
          * the next time this thread executes, it goes sleep.
          */
         if (!fullBuffer) {
             nextStackPointer = 4;
             newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         } else {
-            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+            newContext = new ThreadContext(nextStackPointer, oldContext.getProducedItem(), Consts.STATUS_THREAD_GOING_BLOCK, this);
         }
         this.currentContext = newContext;
     }
@@ -169,12 +169,13 @@ public class ProducerThread extends RunnableThread {
     private void executeLine5(ThreadContext currentContext) {
         ThreadContext newContext = null;
         boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
-        boolean bufferStillFull = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
+        boolean isGoingSleep = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_GOING_BLOCK);
+        //boolean bufferStillFull = (this.bufferOfItems.getBufferSize() == Consts.MAX_SIZE_BUFFER);
         /**
          * checks whether this thread is still blocked (sleeping) or if the
          * other thread woke up this thread or whether the buffer still is full
          */
-        if (stillSleeping || bufferStillFull) {
+        if (stillSleeping || isGoingSleep) {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
         } else {
             newContext = new ThreadContext(4, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
