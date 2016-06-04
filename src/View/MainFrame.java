@@ -221,6 +221,10 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             case Consts.STATUS_THREAD_BLOCKED:
                 jTextField3.setText("Dormindo");
+            case Consts.STATUS_THREAD_GOING_BLOCK:
+                jTextField3.setText("Executando");
+                JOptionPane.showMessageDialog(null,"A thread Consumidor está executando.\n"
+                        + "Entretanto o buffer está vazio. Essa thread irá dormir.\n");
                 break;
         }
     }
@@ -244,6 +248,8 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
             case Consts.STATUS_THREAD_GOING_BLOCK:
                 jTextField6.setText("Executando");
+                JOptionPane.showMessageDialog(null,"A thread Consumidor está executando.\n"
+                        + "Entretanto o buffer está vazio. Essa thread irá dormir.\n");
                 break;
         }
 
@@ -265,10 +271,10 @@ public class MainFrame extends javax.swing.JFrame {
         for (i = 0; i < Consts.MAX_SIZE_BUFFER; i++) {
             if (i < buff.getBufferSize()) {
                 slots[i].setText(String.valueOf(buff.get(i)));
-                //slots[i].setVisible(true);
+                slots[i].setVisible(true);
             } else {
                 slots[i].setText(" ");
-                //slots[i].setVisible(false);
+                slots[i].setVisible(false);
             }
 
         }
