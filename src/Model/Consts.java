@@ -13,6 +13,7 @@ public class Consts {
     public static final int STATUS_THREAD_EXECUTING =       1;
     public static final int STATUS_THREAD_BLOCKED =         2;
     public static final int STATUS_THREAD_READY_TO_EXEC =   3;
+    public static final int STATUS_THREAD_GOING_BLOCK =     4;
     
     public static final int EXECUTE_NEXT_CONSUMER = 0;
     public static final int EXECUTE_NEXT_PRODUCER = 1;

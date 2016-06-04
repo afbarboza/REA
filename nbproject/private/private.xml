@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/Buffer.java</file>
-            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ThreadContext.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MainFrame.java</file>
-            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/RunnableThread.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ProducerThread.java</file>
-            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Controller/Scheduler.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ConsumerThread.java</file>
-            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/rea/REA.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageSleep.java</file>
         </group>
     </open-files>
 </project-private>
