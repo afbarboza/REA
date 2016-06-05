@@ -53,7 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
     true - thread producer
     false - thread consumer*/
     private boolean priorThreadExecuted;
-    
+
     /**
      * Creates new form MainFrame
      */
@@ -82,14 +82,13 @@ public class MainFrame extends javax.swing.JFrame {
         updateViewCodeConsumer();
         updateViewCodeProducer();
     }*/
-    
     public void updateProducer() {
         priorThreadExecuted = true;
         updateViewPaneProducer();
         updateViewPaneBuffer();
         updateViewCodeProducer();
     }
-    
+
     public void updateConsumer() {
         priorThreadExecuted = false;
         updateViewPaneConsumer();
@@ -289,7 +288,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (i < buff.getBufferSize()) {
                 slots[i].setText(String.valueOf(buff.get(i)));
             } else {
-                slots[i].setText(" "); 
+                slots[i].setText(" ");
             }
 
         }
@@ -902,29 +901,31 @@ public class MainFrame extends javax.swing.JFrame {
         if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
             verboseEnglish += "> Thread Producer is sleeping and cannot be executed.\n";
             verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+
         } else {
             verboseEnglish += "> Scheduling Thread Producer.\n";
             verbosePortuguese += "> Escalonando Thread Produtor\n";
 
             sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
             updateProducer();
-
+            updateConsumer();
+            
             if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
                 verboseEnglish += "> Thread Producer now is sleeping\n";
                 verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
-            }  else if (producer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
+            } else if (producer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
                 JOptionPane.showMessageDialog(null, "A thread Produtor está acordada e executando.\n"
                         + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
             }
         }
-        
+
         jTextArea1.setText("");
         if (jComboBox1.getSelectedIndex() == 0) {
             jTextArea1.setText(verbosePortuguese);
         } else {
             jTextArea1.setText(verboseEnglish);
         }
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -934,13 +935,15 @@ public class MainFrame extends javax.swing.JFrame {
         if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
             verboseEnglish += "> Thread Consumer is sleeping and cannot be executed.\n";
             verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
+
         } else {
             verboseEnglish += "> Scheduling Thread Consumer.\n";
             verbosePortuguese += "> Escalonando Thread Consumidor\n";
 
             sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
             updateConsumer();
-
+            updateProducer();
+            
             if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
 
                 verboseEnglish += "> Thread Consumer now is sleeping\n";
