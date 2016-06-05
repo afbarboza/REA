@@ -6,6 +6,7 @@
 package Model;
 
 import Controller.Scheduler;
+import View.MainFrame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,10 @@ import java.util.logging.Logger;
 public class ConsumerThread extends RunnableThread {
 
     private static ConsumerThread instanceOfConsumerThread = null;
-
+    
+    /*counts the number of attemps of trying scheduling a sleeping consumer*/
+    private static int attemptSchedSleepingConsumer;
+    
     private ConsumerThread() {
         super();
     }
@@ -25,6 +29,7 @@ public class ConsumerThread extends RunnableThread {
         if (instanceOfConsumerThread == null) {
             instanceOfConsumerThread = new ConsumerThread();
         }
+        attemptSchedSleepingConsumer = 0;
         return instanceOfConsumerThread;
     }
 
@@ -150,8 +155,10 @@ public class ConsumerThread extends RunnableThread {
          */
         if (stillSleeping || isGoingSleep) {
             newContext = new ThreadContext(2, currentContext.getProducedItem(), Consts.STATUS_THREAD_BLOCKED, this);
+            MainFrame.unableSchedulingConsumer();
         } else {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+            
         }
         this.currentContext = newContext;
     }
@@ -221,6 +228,7 @@ public class ConsumerThread extends RunnableThread {
             Scheduler.getInstance().programStatus.push(myContext);
             ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
             this.currentContext = newContext;
+            MainFrame.enableSchedulingConsumer();
         }
     }
 }

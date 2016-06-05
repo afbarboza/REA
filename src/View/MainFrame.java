@@ -49,11 +49,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private int defaultHeight;
 
-    /*stores the last thread executed
-    true - thread producer
-    false - thread consumer*/
-    private boolean priorThreadExecuted;
-
     /**
      * Creates new form MainFrame
      */
@@ -83,14 +78,12 @@ public class MainFrame extends javax.swing.JFrame {
         updateViewCodeProducer();
     }*/
     public void updateProducer() {
-        priorThreadExecuted = true;
         updateViewPaneProducer();
         updateViewPaneBuffer();
         updateViewCodeProducer();
     }
 
     public void updateConsumer() {
-        priorThreadExecuted = false;
         updateViewPaneConsumer();
         updateViewPaneBuffer();
         updateViewCodeConsumer();
@@ -370,6 +363,30 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
         }
         return retval;
+    }
+
+    public static void enableSchedulingConsumer() {
+        MainFrame.getInstanceOfMainFrame().jButton3.setVisible(true);
+    }
+
+    public static void unableSchedulingConsumer() {
+        MainFrame.getInstanceOfMainFrame().jButton3.setVisible(false);
+    }
+
+    public static void enableSchedulingProducer() {
+        MainFrame.getInstanceOfMainFrame().jButton4.setVisible(true);
+    }
+
+    public static void unableSchedulingProducer() {
+        MainFrame.getInstanceOfMainFrame().jButton4.setVisible(false);
+    }
+
+    public static void warnScheduledConsumer() {
+
+    }
+
+    public static void warnScheduledProducer() {
+
     }
 
     /**
@@ -909,13 +926,20 @@ public class MainFrame extends javax.swing.JFrame {
             sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
             updateProducer();
             updateConsumer();
-            
+
             if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
                 verboseEnglish += "> Thread Producer now is sleeping\n";
                 verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
             } else if (producer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
-                JOptionPane.showMessageDialog(null, "A thread Produtor está acordada e executando.\n"
-                        + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
+                //JOptionPane.showMessageDialog(null, "A thread Produtor está acordada e executando.\n"
+                //        + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
+                this.setVisible(false);
+
+                if (jComboBox1.getSelectedIndex() == 0) {
+                    MessageBufferFull.showPortugueseInstance();
+                } else {
+                    MessageBufferFull.showEnglishInstance();
+                }
             }
         }
 
@@ -943,15 +967,24 @@ public class MainFrame extends javax.swing.JFrame {
             sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
             updateConsumer();
             updateProducer();
-            
+
             if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
 
                 verboseEnglish += "> Thread Consumer now is sleeping\n";
                 verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
 
             } else if (consumer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
-                JOptionPane.showMessageDialog(null, "A thread Consumidor está acordada e executando.\n"
-                        + "Entretanto o buffer está vazio. Está thread terá que ir dormir.\n");
+                //JOptionPane.showMessageDialog(null, "A thread Consumidor está acordada e executando.\n"
+                //       + "Entretanto o buffer está vazio. Está thread terá que ir dormir.\n");
+                //this.setEnabled(false);
+                this.setVisible(false);
+                if (jComboBox1.getSelectedIndex() == 0) {
+                    MessageBufferEmpty.showPortugueseInstance();
+                } else {
+                    MessageBufferEmpty.showEnglishInstance();
+                }
+                //this.setVisible(true);
+                //this.setEnabled(true);
             }
         }
 
@@ -965,12 +998,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         sched.doContextSwitch(Consts.EXECUTE_BACK);
-        if (priorThreadExecuted) {
-            updateProducer();
-        } else {
-            updateConsumer();
-        }
-        //updateView();
+        updateProducer();
+        updateConsumer();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
