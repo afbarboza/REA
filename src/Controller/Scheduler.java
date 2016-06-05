@@ -158,4 +158,8 @@ public class Scheduler {
             }
         }
     }
+    
+    public static void restart() {
+        
+    }
 }
