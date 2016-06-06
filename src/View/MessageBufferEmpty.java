@@ -1,14 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   Author: Alex Frederico Ramos Barboza <alex.barboza@usp.br>
+ *   Author: Bruno Stefano <bruno.stefano@usp.br>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
  */
 package View;
 
-/**
- *
- * @author alex
- */
 public class MessageBufferEmpty extends javax.swing.JFrame {
 
     private static MessageBufferEmpty instance;
@@ -25,8 +34,8 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
     private MessageBufferEmpty() {
         initComponents();
         portugueseTitleMessageBox = "Buffer Vazio!";
-        portugueseStringMessage = "<html>O buffer está vazio. A thread Consumidor está executando atualmente <br>"
-                + "porém irá dormir pois itens não podem ser tirados de um <br> "
+        portugueseStringMessage = "<html>O buffer está vazio. A thread Consumidor está executando atualmente "
+                + "porém irá dormir pois itens não podem ser tirados de um "
                 + "buffer vazio.\n</hmtl>";
         englishTitleMessageBox = "Empty Buffer!";
         englishStringMessage = "<html>The buffer is empty. The thread Consumer is currently running "
@@ -102,20 +111,20 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(220, 220, 220)
+                        .addGap(231, 231, 231)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(108, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(58, 58, 58))
+                .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(0, 0, Short.MAX_VALUE))

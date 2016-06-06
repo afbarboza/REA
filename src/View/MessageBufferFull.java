@@ -1,14 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   Author: Alex Frederico Ramos Barboza <alex.barboza@usp.br>
+ *   Author: Bruno Stefano <bruno.stefano@usp.br>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
  */
 package View;
 
-/**
- *
- * @author alex
- */
 public class MessageBufferFull extends javax.swing.JFrame {
 
     private static MessageBufferFull instance;
@@ -25,11 +34,13 @@ public class MessageBufferFull extends javax.swing.JFrame {
     private MessageBufferFull() {
         initComponents();
         portugueseTitleMessageBox = "Buffer Cheio!";
-        portugueseStringMessage = "<html>O buffer está cheio. A thread Produtor irá dormir"
-                + " pois itens não podem ser colocados em um <br> buffer cheio.\n</hmtl>";
+        portugueseStringMessage = "<html>O buffer está cheio. A thread Produtor está executando atualmente "
+                + "porém irá dormir pois itens não podem ser colocados em um "
+                + "buffer cheio.\n</hmtl>";
         englishTitleMessageBox = "Empty Buffer!";
-        englishStringMessage = "<html>The buffer is full. The thread Producer is going to sleep"
-                + " because items can not be put <br> in a full buffer.\n</html>";
+        englishStringMessage = "<html>The buffer is full. The thread Producer is currently running "
+                + "but is going to sleep because items can not be put "
+                + "in a empty buffer.\n</html>";
         this.setResizable(false);
     }
 

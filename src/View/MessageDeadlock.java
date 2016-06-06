@@ -1,18 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   Author: Alex Frederico Ramos Barboza <alex.barboza@usp.br>
+ *   Author: Bruno Stefano <bruno.stefano@usp.br>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
  */
 package View;
 
 import Model.*;
 import Controller.*;
 
-
-/**
- *
- * @author alex
- */
 public class MessageDeadlock extends javax.swing.JFrame {
 
     private static MessageDeadlock instance;
@@ -28,12 +36,13 @@ public class MessageDeadlock extends javax.swing.JFrame {
      */
     private MessageDeadlock() {
         initComponents();
+        
         portugueseTitleMessageBox = "Dormindo para sempre!";
         portugueseStringMessage = "<html>Produtor e consumidor irão dormir para sempre.<br>"
-                + "Você não pode acordá-las.<br> Deseja reiniciar ou fechar o programa?</html>";
+                + "Você não pode acordá-las.<br>Por favor, execute o programa novamente</html>";
         englishTitleMessageBox = "Sleeping forever!";
         englishStringMessage = "<html>Both Producer and Consumer will sleep forever.<br>"
-                + "You cannot wake them up.<br>Do you want to restart or close the program?</html>";
+                + "You cannot wake them up.<br>Please, run the program again.</html>";
         this.setResizable(false);
     }
 
@@ -84,7 +93,7 @@ public class MessageDeadlock extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setText("Buffer Vazio!");
 
-        jButton1.setText("Fechar");
+        jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -98,12 +107,17 @@ public class MessageDeadlock extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1))
-                .addContainerGap(99, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addContainerGap(99, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,12 +126,12 @@ public class MessageDeadlock extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(86, 93, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addGap(0, 19, Short.MAX_VALUE))
         );
 
         jLabel2.getAccessibleContext().setAccessibleName("lblMessageSleep");

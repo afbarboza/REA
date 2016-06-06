@@ -1,7 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   Author: Alex Frederico Ramos Barboza <alex.barboza@usp.br>
+ *   Author: Bruno Stefano <bruno.stefano@usp.br>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
  */
 package View;
 
@@ -22,10 +35,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-/**
- *
- * @author alex
- */
 public class MainFrame extends javax.swing.JFrame {
 
     /*the singleton instance of MainFrame*/
@@ -70,13 +79,6 @@ public class MainFrame extends javax.swing.JFrame {
         return instanceOfMainFrame;
     }
 
-    /*public void updateView() {
-        updateViewPaneProducer();
-        updateViewPaneConsumer();
-        updateViewPaneBuffer();
-        updateViewCodeConsumer();
-        updateViewCodeProducer();
-    }*/
     public void updateProducer() {
         updateViewPaneProducer();
         updateViewPaneBuffer();
@@ -158,10 +160,13 @@ public class MainFrame extends javax.swing.JFrame {
                 imageName = "./imgs/c0.png";
                 break;
         }
-        ImageIcon icon = new ImageIcon(imageName);
-        icon.getImage().flush();
-        jLabel1.setIcon(icon);
-
+        try {
+            jLabel1.setIcon(new ImageIcon(ImageIO.read( new File(imageName) ) ));
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         if (currentStackPointer == 6) {
             updateViewPaneCounter();
         }
@@ -206,10 +211,13 @@ public class MainFrame extends javax.swing.JFrame {
                 imageName = "./imgs/c0.png";
                 break;
         }
-        ImageIcon icon = new ImageIcon(imageName);
-        icon.getImage().flush();
-        jLabel3.setIcon(icon);
 
+        try {
+            jLabel3.setIcon(new ImageIcon(ImageIO.read( new File(imageName) ) ));
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if (currentLineCode == 5) {
             updateViewPaneCounter();
         }
@@ -223,20 +231,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTextField1.setText(getImageLineProducer());
         jTextField2.setText(String.valueOf(producer.getProducedItem()));
         currentProducerStatus = producer.getStatus();
-        switch (currentProducerStatus) {
-            case Consts.STATUS_THREAD_EXECUTING:
-                jTextField3.setText("Executando");
-                break;
-            case Consts.STATUS_THREAD_READY_TO_EXEC:
-                jTextField3.setText("Pronto para executar");
-                break;
-            case Consts.STATUS_THREAD_BLOCKED:
-                jTextField3.setText("Dormindo");
-                break;
-            case Consts.STATUS_THREAD_GOING_BLOCK:
-                jTextField3.setText("Executando");
-                break;
-        }
+        setIdiomStatusProducer();
     }
 
     void updateViewPaneConsumer() {
@@ -246,28 +241,83 @@ public class MainFrame extends javax.swing.JFrame {
         //jTextField4.setText(String.valueOf(consumer.getStackPointer() + 2));
         jTextField4.setText(getImageLineConsumer());
         jTextField5.setText(String.valueOf(consumer.getProducedItem()));
-        currentConsumerStatus = consumer.getStatus();
-        switch (currentConsumerStatus) {
-            case Consts.STATUS_THREAD_EXECUTING:
-                jTextField6.setText("Executando");
-                break;
-            case Consts.STATUS_THREAD_READY_TO_EXEC:
-                jTextField6.setText("Pronto para executar");
-                break;
-            case Consts.STATUS_THREAD_BLOCKED:
-                jTextField6.setText("Dormindo");
-                break;
-            case Consts.STATUS_THREAD_GOING_BLOCK:
-                jTextField6.setText("Executando");
-                break;
-        }
-
+        setIdiomStatusConsumer();
     }
 
     void updateViewPaneCounter() {
         jTextField7.setText(String.valueOf(buff.getBufferSize()));
     }
 
+    public void setIdiomStatusProducer() {
+        int currentProducerStatus = producer.getStatus();
+        if (getLanguage() == 0) {
+            switch (currentProducerStatus) {
+            case Consts.STATUS_THREAD_EXECUTING:
+                jTextField3.setText("Executando");
+                break;
+            case Consts.STATUS_THREAD_READY_TO_EXEC:
+                jTextField3.setText("Pronto para executar");
+                break;
+            case Consts.STATUS_THREAD_BLOCKED:
+                jTextField3.setText("Bloqueado");
+                break;
+            case Consts.STATUS_THREAD_GOING_BLOCK:
+                jTextField3.setText("Executando");
+                break;
+            }
+        } else {
+            switch (currentProducerStatus) {
+            case Consts.STATUS_THREAD_EXECUTING:
+                jTextField3.setText("Running");
+                break;
+            case Consts.STATUS_THREAD_READY_TO_EXEC:
+                jTextField3.setText("Ready");
+                break;
+            case Consts.STATUS_THREAD_BLOCKED:
+                jTextField3.setText("Blocked");
+                break;
+            case Consts.STATUS_THREAD_GOING_BLOCK:
+                jTextField3.setText("Running");
+                break;
+            }
+        }
+    }
+    
+    public void setIdiomStatusConsumer() {
+        int currentConsumerStatus = consumer.getStatus();
+        if (getLanguage() == 0) {
+            switch (currentConsumerStatus) {
+                case Consts.STATUS_THREAD_EXECUTING:
+                    jTextField6.setText("Executando");
+                    break;
+                case Consts.STATUS_THREAD_READY_TO_EXEC:
+                    jTextField6.setText("Pronto");
+                    break;
+                case Consts.STATUS_THREAD_BLOCKED:
+                    jTextField6.setText("Bloqueado");
+                    break;
+                case Consts.STATUS_THREAD_GOING_BLOCK:
+                    jTextField6.setText("Executando");
+                    break;
+            }
+        } else {
+            switch (currentConsumerStatus) {
+                case Consts.STATUS_THREAD_EXECUTING:
+                    jTextField6.setText("Running");
+                    break;
+                case Consts.STATUS_THREAD_READY_TO_EXEC:
+                    jTextField6.setText("Ready");
+                    break;
+                case Consts.STATUS_THREAD_BLOCKED:
+                    jTextField6.setText("Blocked");
+                    break;
+                case Consts.STATUS_THREAD_GOING_BLOCK:
+                    jTextField6.setText("Running");
+                    break;
+            }
+        }
+    }
+    
     void updateViewPaneBuffer() {
         int i = 0;
         JTextField slots[] = new JTextField[5];
