@@ -126,6 +126,7 @@ public class MessageWakeupConsumer extends javax.swing.JFrame {
         MessageWakeupConsumer.getInstance().setVisible(false);
         MessageWakeupConsumer.getInstance().setEnabled(false);
         MainFrame.getInstanceOfMainFrame().setVisible(true);
+        MainFrame.getInstanceOfMainFrame().setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

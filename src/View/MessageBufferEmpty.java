@@ -25,11 +25,13 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
     private MessageBufferEmpty() {
         initComponents();
         portugueseTitleMessageBox = "Buffer Vazio!";
-        portugueseStringMessage = "<html>O buffer está vazio. A thread Consumidor irá dormir"
-                + " pois itens não podem ser tirados de um <br> buffer vazio.\n</hmtl>";
+        portugueseStringMessage = "<html>O buffer está vazio. A thread Consumidor está executando atualmente <br>"
+                + "porém irá dormir pois itens não podem ser tirados de um <br> "
+                + "buffer vazio.\n</hmtl>";
         englishTitleMessageBox = "Empty Buffer!";
-        englishStringMessage = "<html>The buffer is empty. The thread Consumer is going to sleep"
-                + " because items can not be taken <br> from a empty buffer.\n</html>";
+        englishStringMessage = "<html>The buffer is empty. The thread Consumer is currently running "
+                + "but is going to sleep because items can not be taken "
+                + "from a empty buffer.\n</html>";
         this.setResizable(false);
     }
 
@@ -100,8 +102,8 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(220, 220, 220)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(108, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -111,9 +113,9 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(58, 58, 58))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -128,6 +130,7 @@ public class MessageBufferEmpty extends javax.swing.JFrame {
         MessageBufferEmpty.getInstance().setVisible(false);
         MessageBufferEmpty.getInstance().setEnabled(false);
         MainFrame.getInstanceOfMainFrame().setVisible(true);
+        MainFrame.getInstanceOfMainFrame().setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -10,6 +10,9 @@ package Model;
  * @author alex
  */
 public class Consts {
+    public static final int THREAD_PRODUCER = 1;
+    public static final int THREAD_CONSUMER = 2;
+    
     public static final int STATUS_THREAD_EXECUTING =       1;
     public static final int STATUS_THREAD_BLOCKED =         2;
     public static final int STATUS_THREAD_READY_TO_EXEC =   3;

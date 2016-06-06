@@ -126,6 +126,7 @@ public class MessageWakeupProducer extends javax.swing.JFrame {
         MessageWakeupProducer.getInstance().setVisible(false);
         MessageWakeupProducer.getInstance().setEnabled(false);
         MainFrame.getInstanceOfMainFrame().setVisible(true);
+        MainFrame.getInstanceOfMainFrame().setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

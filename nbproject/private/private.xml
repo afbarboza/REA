@@ -3,7 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Bruno%20Stefano/Documents/GitHub/REA/src/View/MainFrame.java</file>
+=======
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageBufferEmpty.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageLostWakeupProducer.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MainFrame.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageWakeupProducer.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageBufferFull.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageDeadlock.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ProducerThread.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Controller/Scheduler.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageWakeupConsumer.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ConsumerThread.java</file>
+>>>>>>> 2257866064eb3707caf45563a9ab63a9f61a8aa2
         </group>
     </open-files>
 </project-private>
