@@ -100,8 +100,8 @@ public class MessageBufferFull extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(238, 238, 238)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(108, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -111,9 +111,9 @@ public class MessageBufferFull extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(64, 64, 64))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -128,6 +128,7 @@ public class MessageBufferFull extends javax.swing.JFrame {
         MessageBufferFull.getInstance().setVisible(false);
         MessageBufferFull.getInstance().setEnabled(false);
         MainFrame.getInstanceOfMainFrame().setVisible(true);
+        MainFrame.getInstanceOfMainFrame().setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

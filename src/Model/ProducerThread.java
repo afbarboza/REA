@@ -6,7 +6,8 @@
  */
 package Model;
 
-import Controller.Scheduler;
+import Controller.*;
+import View.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -255,10 +256,27 @@ public class ProducerThread extends RunnableThread {
      */
     public void wakeupProducer() {
         ThreadContext myContext = this.getCurrentContext();
+        int idiom = MainFrame.getInstanceOfMainFrame().getLanguage();
+        MainFrame.getInstanceOfMainFrame().setEnabled(false);
+        
         if (myContext.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            if (idiom == 0) {
+                /*shwo the wakeup message to the user*/
+                MessageWakeupProducer.showPortugueseInstance();
+            } else {
+                MessageWakeupProducer.showEnglishInstance();
+            }
+
             Scheduler.getInstance().programStatus.push(myContext);
             ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
+            MainFrame.enableSchedulingProducer();
             this.currentContext = newContext;
+        } else { /*show the lost signal of wakeup*/
+            if (idiom == 0) {
+                MessageLostWakeupProducer.showPortugueseInstance();
+            } else {
+                MessageLostWakeupProducer.showEnglishInstance();
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.*;
+import View.MainFrame;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,12 +91,22 @@ public class Scheduler {
         ThreadContext oldContextConsumer = (ThreadContext) this.programStatus.pop();
         this.ct.setCurrentContext(oldContextConsumer);
         
+        if (oldContextConsumer.getStatus() == Consts.STATUS_THREAD_EXECUTING ||
+            oldContextConsumer.getStatus() == Consts.STATUS_THREAD_READY_TO_EXEC) {
+            MainFrame.enableSchedulingConsumer();
+        } else if (oldContextConsumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            MainFrame.unableSchedulingConsumer();
+        }
+        
         ThreadContext oldContextProducer = (ThreadContext) this.programStatus.pop();
         this.pt.setCurrentContext(oldContextProducer);
         
-        /**
-         * @todo update user view
-         */
+        if (oldContextProducer.getStatus() == Consts.STATUS_THREAD_EXECUTING ||
+            oldContextProducer.getStatus() == Consts.STATUS_THREAD_READY_TO_EXEC) {
+            MainFrame.enableSchedulingConsumer();
+        }  else if (oldContextProducer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            MainFrame.unableSchedulingProducer();
+        }
     }
 
     /**
@@ -142,6 +153,10 @@ public class Scheduler {
      * @return void
      */
     private void popBufferFrame() {
+        if (bufferRecord == null || bufferRecord.empty()) {
+            return;
+        }
+        
         Buffer b = Buffer.getInstance();
         int oldBufferSize = 0;
         /*first, we must clear the current buffer*/
@@ -157,6 +172,16 @@ public class Scheduler {
                 System.exit(1);
             }
         }
+    }
+    
+    public boolean checkDeadlockStatus() {
+        boolean lockedProducer = (pt.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
+        boolean lockedConsumer = (ct.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
+        
+        if (lockedProducer && lockedConsumer) {
+            return true;
+        }
+        return false;
     }
     
     public static void restart() {

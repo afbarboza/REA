@@ -4,8 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageBufferEmpty.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageLostWakeupProducer.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MainFrame.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageWakeupProducer.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageBufferFull.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageDeadlock.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ProducerThread.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Controller/Scheduler.java</file>
+            <file>file:/home/alex/so1/REA/projeto/REA/REA/src/View/MessageWakeupConsumer.java</file>
             <file>file:/home/alex/so1/REA/projeto/REA/REA/src/Model/ConsumerThread.java</file>
         </group>
     </open-files>

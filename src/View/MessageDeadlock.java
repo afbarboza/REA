@@ -29,8 +29,8 @@ public class MessageDeadlock extends javax.swing.JFrame {
     private MessageDeadlock() {
         initComponents();
         portugueseTitleMessageBox = "Dormindo para sempre!";
-        portugueseStringMessage = "Produtor e consumidor irão dormir para sempre.<br>"
-                + "Você não pode acordá-las.<br> Deseja reiniciar ou fechar o programa?";
+        portugueseStringMessage = "<html>Produtor e consumidor irão dormir para sempre.<br>"
+                + "Você não pode acordá-las.<br> Deseja reiniciar ou fechar o programa?</html>";
         englishTitleMessageBox = "Sleeping forever!";
         englishStringMessage = "<html>Both Producer and Consumer will sleep forever.<br>"
                 + "You cannot wake them up.<br>Do you want to restart or close the program?</html>";
@@ -72,7 +72,6 @@ public class MessageDeadlock extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -92,47 +91,33 @@ public class MessageDeadlock extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Reiniciar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel2)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(244, 244, 244)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(86, 93, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addGap(86, 86, 86))
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 7, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel2.getAccessibleContext().setAccessibleName("lblMessageSleep");
@@ -146,12 +131,6 @@ public class MessageDeadlock extends javax.swing.JFrame {
         //MainFrame.getInstanceOfMainFrame().setVisible(true);
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       Scheduler.getInstance().restart();
-       this.setVisible(false);
-       this.setEnabled(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,7 +184,6 @@ public class MessageDeadlock extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

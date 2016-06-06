@@ -7,6 +7,8 @@ package Model;
 
 import Controller.Scheduler;
 import View.MainFrame;
+import View.MessageLostWakeupProducer;
+import View.MessageWakeupConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,10 +19,10 @@ import java.util.logging.Logger;
 public class ConsumerThread extends RunnableThread {
 
     private static ConsumerThread instanceOfConsumerThread = null;
-    
+
     /*counts the number of attemps of trying scheduling a sleeping consumer*/
     private static int attemptSchedSleepingConsumer;
-    
+
     private ConsumerThread() {
         super();
     }
@@ -126,7 +128,7 @@ public class ConsumerThread extends RunnableThread {
 
         boolean bufferIsEmpty = (this.bufferOfItems.getBufferSize() == 0);
         //boolean bufferIsEmpty = (oldContext.readRegisterBufferSize() == 0);
-        
+
         /**
          * if the buffer is not empty, the first instruction after "sleep()"
          * must be executed. otherwise, Consumer must call "sleep()" and will be
@@ -158,7 +160,7 @@ public class ConsumerThread extends RunnableThread {
             MainFrame.unableSchedulingConsumer();
         } else {
             newContext = new ThreadContext(3, currentContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
-            
+
         }
         this.currentContext = newContext;
     }
@@ -222,13 +224,28 @@ public class ConsumerThread extends RunnableThread {
      */
     public void wakeupConsumer() {
         ThreadContext myContext = this.getCurrentContext();
+        int idiom = MainFrame.getInstanceOfMainFrame().getLanguage();
+        /*makes MainFrame invisible*/
+        MainFrame.getInstanceOfMainFrame().setEnabled(false);
 
         /*The thread can be blocked if, and only if, was sleeping (blocked)*/
         if (myContext.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
+            if (idiom == 0) {   /*shwo the wakeup message to the user*/
+                MessageWakeupConsumer.showPortugueseInstance();
+            } else {
+                MessageWakeupConsumer.showEnglishInstance();
+            }
+
             Scheduler.getInstance().programStatus.push(myContext);
             ThreadContext newContext = new ThreadContext(myContext.getStackPointer(), myContext.getProducedItem(), Consts.STATUS_THREAD_READY_TO_EXEC, this);
             this.currentContext = newContext;
             MainFrame.enableSchedulingConsumer();
-        }
+        } else { /*show the lost signal of wakeup*/
+            if (idiom == 0) {
+                MessageLostWakeupProducer.showPortugueseInstance();
+            } else {
+                MessageLostWakeupProducer.showEnglishInstance();
+            }
+        } 
     }
 }

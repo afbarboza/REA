@@ -366,29 +366,84 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public static void enableSchedulingConsumer() {
-        MainFrame.getInstanceOfMainFrame().jButton3.setVisible(true);
+        MainFrame.getInstanceOfMainFrame().jButton3.setEnabled(true);
     }
 
     public static void unableSchedulingConsumer() {
-        MainFrame.getInstanceOfMainFrame().jButton3.setVisible(false);
+        MainFrame.getInstanceOfMainFrame().jButton3.setEnabled(false);
     }
 
     public static void enableSchedulingProducer() {
-        MainFrame.getInstanceOfMainFrame().jButton4.setVisible(true);
+        MainFrame.getInstanceOfMainFrame().jButton4.setEnabled(true);
     }
 
     public static void unableSchedulingProducer() {
-        MainFrame.getInstanceOfMainFrame().jButton4.setVisible(false);
+        MainFrame.getInstanceOfMainFrame().jButton4.setEnabled(false);
     }
 
-    public static void warnScheduledConsumer() {
-
+    public int getLanguage() {
+        return jComboBox1.getSelectedIndex();
     }
 
-    public static void warnScheduledProducer() {
-
+    public void warnSleepingThread(int thread) {
+        if (thread == Consts.THREAD_PRODUCER) {
+            verboseEnglish += "> Thread Producer is sleeping and cannot be executed.\n";
+            verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+        } else if (thread == Consts.THREAD_CONSUMER) {
+            verboseEnglish += "> Thread Consumer is sleeping and cannot be executed.\n";
+            verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
+        }
     }
 
+    public void warnScheduledThread(int thread) {
+        if (thread == Consts.THREAD_PRODUCER) {
+            verboseEnglish += "> Scheduling Thread Producer.\n";
+            verbosePortuguese += "> Escalonando Thread Produtor\n";
+        } else if (thread == Consts.THREAD_CONSUMER) {
+            verboseEnglish += "> Scheduling Thread Consumer.\n";
+            verbosePortuguese += "> Escalonando Thread Consumidor\n";
+        }
+    }
+    
+    public void warnAlmostSleeping(int thread) {
+        if (thread == Consts.THREAD_PRODUCER) {
+            verboseEnglish += "> The sleeping condition of the Thread Producer has been satisfied "
+                    + "and the thread will sleep when the next line is "
+                    + "executed\n";
+            verbosePortuguese += "> A condição de dormir da Thread Produtor foi satisfeita e "
+                    + "a thread irá dormir quando a próxima linha for executada\n";
+        } else if (thread == Consts.THREAD_CONSUMER) {
+            verboseEnglish += "> The sleeping condition of the Thread Consumer has been satisfied "
+                    + "and the thread will sleep when the next line is "
+                    + "executed\n";
+            verbosePortuguese += "> A condição de dormir da Thread Consumidor foi satisfeita e "
+                    + "a thread irá dormir quando a próxima linha for executada\n";
+            
+        }
+    }
+    
+    public void warnDeadlock() {
+        verboseEnglish += "Both threads Producer and Consumer will sleep forever because one can not "
+                       + "wake up the other\n";
+        verbosePortuguese += "As threads Produtor e Consumidor irão dormir para sempre porque uma"
+                       + "não pode acordar a outra";
+        this.setEnabled(false);
+        if (this.getLanguage() == 0) {
+            MessageDeadlock.showPortugueseInstance();
+        } else if (this.getLanguage() == 1) {
+            MessageDeadlock.showEnglishInstance();
+        }
+    }
+    
+    public void updateConsoleText() {
+        jTextArea1.setText("");
+        if (jComboBox1.getSelectedIndex() == 0) {
+            jTextArea1.setText(verbosePortuguese);
+        } else {
+            jTextArea1.setText(verboseEnglish);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -914,27 +969,29 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String str;
         if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
-            verboseEnglish += "> Thread Producer is sleeping and cannot be executed.\n";
-            verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
-
+            /*echos a warning of sleeping thread*/
+            warnSleepingThread(Consts.THREAD_PRODUCER);
         } else {
-            verboseEnglish += "> Scheduling Thread Producer.\n";
-            verbosePortuguese += "> Escalonando Thread Produtor\n";
-
+            /*echos a warning of scheduled thread*/
+            warnScheduledThread(Consts.THREAD_PRODUCER);
+            /*do the context switching*/
             sched.doContextSwitch(Consts.EXECUTE_NEXT_PRODUCER);
+            /*update the form*/
             updateProducer();
             updateConsumer();
-
+            /*checks whehther the thread was blocked - went sleep*/
             if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
-                verboseEnglish += "> Thread Producer now is sleeping\n";
-                verbosePortuguese += "> Thread Produtor está dormindo e não pode ser executada.\n";
+                warnSleepingThread(Consts.THREAD_PRODUCER);
+                unableSchedulingProducer();
+                if (sched.checkDeadlockStatus()) {
+                    warnDeadlock();
+                }
+                
             } else if (producer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
-                //JOptionPane.showMessageDialog(null, "A thread Produtor está acordada e executando.\n"
-                //        + "Entretanto o buffer está cheio. Está thread terá que ir dormir.\n");
-                this.setVisible(false);
-
+                /*warning for almost sleeping thread*/
+                warnAlmostSleeping(Consts.THREAD_PRODUCER);
+                this.setEnabled(false);
                 if (jComboBox1.getSelectedIndex() == 0) {
                     MessageBufferFull.showPortugueseInstance();
                 } else {
@@ -942,59 +999,42 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         }
-
-        jTextArea1.setText("");
-        if (jComboBox1.getSelectedIndex() == 0) {
-            jTextArea1.setText(verbosePortuguese);
-        } else {
-            jTextArea1.setText(verboseEnglish);
-        }
-
+        updateConsoleText();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        /*sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
-        updateView(); */
-        String str;
         if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
-            verboseEnglish += "> Thread Consumer is sleeping and cannot be executed.\n";
-            verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
-
+            /*echos a warning of sleeping thread*/
+            warnSleepingThread(Consts.THREAD_CONSUMER);
         } else {
-            verboseEnglish += "> Scheduling Thread Consumer.\n";
-            verbosePortuguese += "> Escalonando Thread Consumidor\n";
-
+            /*echos a warning of scheduled thread*/
+            warnScheduledThread(Consts.THREAD_CONSUMER);
+            /*do the context switching*/
             sched.doContextSwitch(Consts.EXECUTE_NEXT_CONSUMER);
+            /*update the view*/
             updateConsumer();
             updateProducer();
-
+            /*checks whether the thread was blocked - went sleep*/
             if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
-
-                verboseEnglish += "> Thread Consumer now is sleeping\n";
-                verbosePortuguese += "> Thread Consumidor está dormindo e não pode ser executada.\n";
-
+                warnSleepingThread(Consts.THREAD_CONSUMER);
+                unableSchedulingConsumer();
+                if (sched.checkDeadlockStatus()) {
+                    warnDeadlock();
+                }
             } else if (consumer.getStatus() == Consts.STATUS_THREAD_GOING_BLOCK) {
-                //JOptionPane.showMessageDialog(null, "A thread Consumidor está acordada e executando.\n"
-                //       + "Entretanto o buffer está vazio. Está thread terá que ir dormir.\n");
-                //this.setEnabled(false);
-                this.setVisible(false);
+                /*warning for almost sleeping thread*/
+                this.setEnabled(false);
+                warnAlmostSleeping(Consts.THREAD_CONSUMER);
                 if (jComboBox1.getSelectedIndex() == 0) {
                     MessageBufferEmpty.showPortugueseInstance();
                 } else {
                     MessageBufferEmpty.showEnglishInstance();
                 }
-                //this.setVisible(true);
-                //this.setEnabled(true);
             }
         }
-
-        jTextArea1.setText("");
-        if (jComboBox1.getSelectedIndex() == 0) {
-            jTextArea1.setText(verbosePortuguese);
-        } else {
-            jTextArea1.setText(verboseEnglish);
-        }
+        updateConsoleText();
     }//GEN-LAST:event_jButton3ActionPerformed
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         sched.doContextSwitch(Consts.EXECUTE_BACK);
