@@ -72,6 +72,10 @@ public class MainFrame extends javax.swing.JFrame {
         verbosePortuguese = "";
     }
 
+    /**
+     * Using the Singleton design patter, gets the singleton instance of MainFrame
+     * @return the singleton instance of MainFrame
+     */
     public static MainFrame getInstanceOfMainFrame() {
         if (instanceOfMainFrame == null) {
             instanceOfMainFrame = new MainFrame();
@@ -79,18 +83,27 @@ public class MainFrame extends javax.swing.JFrame {
         return instanceOfMainFrame;
     }
 
+    /**
+     * Update the view od ProducerThread
+     */
     public void updateProducer() {
         updateViewPaneProducer();
         updateViewPaneBuffer();
         updateViewCodeProducer();
     }
 
+    /**
+     * Update the viw of ConsumerThread
+     */
     public void updateConsumer() {
         updateViewPaneConsumer();
         updateViewPaneBuffer();
         updateViewCodeConsumer();
     }
 
+    /**
+     * Translates all the interaction to English Language
+     */
     public void viewEnglishLanguage() {
         jLabel10.setText("Code of Producer");
         jLabel11.setText("Code of Consumer");
@@ -104,8 +117,16 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel14.setText("BACK");
         jLabel12.setText("CONSUMER");
         jCheckBox1.setText("Enable verbose");
+        jLabel15.setText("Idiom:");
+        jMenu1.setText("Informations");
+        jMenuItem1.setText("The Producer/Consumer Problem");
+        jMenuItem2.setText("License");
+        jMenuItem3.setText("How to use this program");
     }
 
+    /**
+     * Translates all the interaction to Portuguese language
+     */
     public void viewPortugueseLanguage() {
         jLabel10.setText("Código do Produtor");
         jLabel11.setText("Código do Consumidor");
@@ -119,8 +140,16 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel14.setText("RETORNAR");
         jLabel12.setText("CONSUMIDOR");
         jCheckBox1.setText("Ativar verbose");
+        jLabel15.setText("Idioma:");
+        jMenu1.setText("Informações");
+        jMenuItem1.setText("O problema do Produtor/Consumidor");
+        jMenuItem2.setText("Licença");
+        jMenuItem3.setText("Como usar este programa");
     }
 
+    /**
+     * Update the C language code of thread Producer at MainFrame
+     */
     void updateViewCodeProducer() {
         int currentStackPointer = producer.getStackPointer();
         String imageName = "";
@@ -172,6 +201,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Update the C language code of thread Consumer at MainFrame
+     */
     void updateViewCodeConsumer() {
         int currentLineCode = consumer.getStackPointer();
         String imageName = "";
@@ -223,31 +255,43 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Update all the grouped informations about the context of thread Producer
+     * in its JPane.
+     */
     void updateViewPaneProducer() {
         int currentProducerStatus;
         producer = ProducerThread.getInstance().getCurrentContext();
-
-        //jTextField1.setText(String.valueOf(producer.getStackPointer() + 2));
         jTextField1.setText(getImageLineProducer());
         jTextField2.setText(String.valueOf(producer.getProducedItem()));
         currentProducerStatus = producer.getStatus();
         setIdiomStatusProducer();
     }
 
+    /**
+     * Update all the grouped informations about the context of thread Consumer
+     * in its JPane.
+     */
     void updateViewPaneConsumer() {
         int currentConsumerStatus;
         consumer = ConsumerThread.getInstance().getCurrentContext();
-
-        //jTextField4.setText(String.valueOf(consumer.getStackPointer() + 2));
         jTextField4.setText(getImageLineConsumer());
         jTextField5.setText(String.valueOf(consumer.getProducedItem()));
         setIdiomStatusConsumer();
     }
 
+    /**
+     * Update the display label of variable Count.<p>
+     * (Displays the new size of buffer to the user)
+     */
     void updateViewPaneCounter() {
         jTextField7.setText(String.valueOf(buff.getBufferSize()));
     }
 
+    /**
+     * Sets the translated informations according to the chosen language for
+     * the thread Producer.<p>
+     */
     public void setIdiomStatusProducer() {
         int currentProducerStatus = producer.getStatus();
         if (getLanguage() == 0) {
@@ -283,6 +327,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Sets the translated informations according to the chosen language for
+     * the thread Consumer.<p>
+     */
     public void setIdiomStatusConsumer() {
         int currentConsumerStatus = consumer.getStatus();
         if (getLanguage() == 0) {
@@ -318,6 +366,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Updates the view for slots value of buffer.<p>
+     */
     void updateViewPaneBuffer() {
         int i = 0;
         JTextField slots[] = new JTextField[5];
@@ -337,6 +388,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Gets the selected line of code from Consumer source code.
+     * @return the string contaning the suffix for the image file of the current selected line.
+     */
     String getImageLineConsumer() {
         int currentLine = consumer.getStackPointer();
         String retval = "0";
@@ -376,6 +431,10 @@ public class MainFrame extends javax.swing.JFrame {
         return retval;
     }
 
+    /**
+     * Gets the selected line of code from Producer source code.
+     * @return the string contaning the suffix for the image file of the current selected line.
+     */
     String getImageLineProducer() {
         int currentLine = producer.getStackPointer();
         String retval = "0";
@@ -415,26 +474,46 @@ public class MainFrame extends javax.swing.JFrame {
         return retval;
     }
 
+    /**
+     * Let user schedule Consumer (press the button next for Consumer)
+     */
     public static void enableSchedulingConsumer() {
         MainFrame.getInstanceOfMainFrame().jButton3.setEnabled(true);
     }
 
+    /**
+     * Prohibits user schedule Consumer (press the button next for Consumer)
+     */
     public static void unableSchedulingConsumer() {
         MainFrame.getInstanceOfMainFrame().jButton3.setEnabled(false);
     }
 
+    /**
+     * Let user schedule Producer (press the button next for Producer)
+     */
     public static void enableSchedulingProducer() {
         MainFrame.getInstanceOfMainFrame().jButton4.setEnabled(true);
     }
 
+    /**
+     * Prohibits user schedule Producer (press the button next for Producer)
+     */
     public static void unableSchedulingProducer() {
         MainFrame.getInstanceOfMainFrame().jButton4.setEnabled(false);
     }
 
+    /**
+     * Get the select idiom by the user. <p>
+     * @return 
+     */
     public int getLanguage() {
         return jComboBox1.getSelectedIndex();
     }
 
+    /**
+     * Appends information to the console about sleeping thread.
+     * @param thread which the information come from.
+     */
     public void warnSleepingThread(int thread) {
         if (thread == Consts.THREAD_PRODUCER) {
             verboseEnglish += "> Thread Producer is sleeping and cannot be executed.\n";
@@ -445,6 +524,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Appends information to the console about scheduled thread.
+     * @param thread which the information come from.
+     */
     public void warnScheduledThread(int thread) {
         if (thread == Consts.THREAD_PRODUCER) {
             verboseEnglish += "> Scheduling Thread Producer.\n";
@@ -455,6 +538,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Appends information to the console about almost sleeping thread.
+     * @param thread which the information come from.
+     */
     public void warnAlmostSleeping(int thread) {
         if (thread == Consts.THREAD_PRODUCER) {
             verboseEnglish += "> The sleeping condition of the Thread Producer has been satisfied "
@@ -472,6 +559,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Appends information to the console about deadlock situation.<p>
+     * This function shall be called only once when the threads cannot wake up each ohter.
+     */
     public void warnDeadlock() {
         verboseEnglish += "Both threads Producer and Consumer will sleep forever because one can not "
                        + "wake up the other\n";
@@ -485,6 +576,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Updates the language and appends new information to the console.
+     */
     public void updateConsoleText() {
         jTextArea1.setText("");
         if (jComboBox1.getSelectedIndex() == 0) {
@@ -541,11 +635,15 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Produtor/Consumidor - Sleep/Wake_Up");
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1070, 691));
         setResizable(false);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/consumer0.png"))); // NOI18N
@@ -881,6 +979,31 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jMenu1.setText("Informações");
+
+        jMenuItem1.setText("O Problema do Produtor/Consumidor");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("Como usar este programa");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem2.setText("Licença");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -894,29 +1017,26 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(144, 144, 144)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(143, 143, 143)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13))
-                                .addGap(141, 141, 141)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14))
-                                .addGap(111, 111, 111)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)))
+                        .addGap(144, 144, 144)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(141, 141, 141)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14))
+                        .addGap(111, 111, 111)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -942,7 +1062,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
@@ -993,6 +1113,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
+    /**
+     * Slect actions when the Console ins enabled/unabled by the user.
+     * @param evt the click of the mouse.
+     */
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (jCheckBox1.getSelectedObjects() == null) {
             jTextArea1.setVisible(false);
@@ -1003,8 +1127,12 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    /**
+     * Actions to be taken when user change the idiom. <p>
+     * @param evt 
+     */
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        
         if (jComboBox1.getSelectedIndex() == 0) {
             viewPortugueseLanguage();
             jTextArea1.setText(verbosePortuguese);
@@ -1015,9 +1143,12 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
 
+    }//GEN-LAST:event_jTextField10ActionPerformed
+    /**
+     * Actions to be takne when user try to shcedule thread Producer.
+     * @param evt 
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (producer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
             /*echos a warning of sleeping thread*/
@@ -1052,6 +1183,10 @@ public class MainFrame extends javax.swing.JFrame {
         updateConsoleText();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Actions to be takne when user try to shcedule thread Producer.
+     * @param evt 
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (consumer.getStatus() == Consts.STATUS_THREAD_BLOCKED) {
             /*echos a warning of sleeping thread*/
@@ -1085,7 +1220,10 @@ public class MainFrame extends javax.swing.JFrame {
         updateConsoleText();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-
+    /**
+     * Take back one step the last action (scheduled thread) of the user.
+     * @param evt 
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         sched.doContextSwitch(Consts.EXECUTE_BACK);
         updateProducer();
@@ -1099,6 +1237,14 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1156,6 +1302,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

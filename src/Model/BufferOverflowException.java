@@ -19,6 +19,11 @@
 package Model;
 
 public class BufferOverflowException extends Exception {
+    /**
+     * Constructs a new excpetion when buffer is full.<p>
+     * If buffer have all slots busy, an attempt to insert a new item
+     * must throw this excpetion.
+     */
     public BufferOverflowException() {
         
     }

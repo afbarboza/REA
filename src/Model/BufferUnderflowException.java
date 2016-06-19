@@ -19,6 +19,11 @@
 package Model;
 
 public class BufferUnderflowException extends Exception {
+    /**
+     * Constructs a new excpetion when buffer is empty.<p>
+     * If buffer have all slots empty, an attempt to remove an item
+     * must throw this excpetion.
+     */
     public BufferUnderflowException() {
         
     }

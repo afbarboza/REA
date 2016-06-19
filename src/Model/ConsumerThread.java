@@ -109,7 +109,7 @@ public class ConsumerThread extends RunnableThread {
     }
 
     /**
-     * Execute line 1 or line 2 of source code from Thread Producer
+     * Execute line 1 or line 2 of source code from Thread Consumer
      *
      * @return void
      * @see executeNextInstruction
@@ -123,6 +123,12 @@ public class ConsumerThread extends RunnableThread {
         return;
     }
 
+    /**
+     * Execute line 2 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine2(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.currentContext;
@@ -130,6 +136,12 @@ public class ConsumerThread extends RunnableThread {
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 3 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine3(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ThreadContext oldContext = this.getCurrentContext();
@@ -154,6 +166,12 @@ public class ConsumerThread extends RunnableThread {
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 4 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine4(ThreadContext currentContext) {
         ThreadContext newContext = null;
         boolean stillSleeping = (this.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
@@ -174,6 +192,12 @@ public class ConsumerThread extends RunnableThread {
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 5 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine5(ThreadContext currentContext) {
         try {
             ThreadContext newContext = null;
@@ -186,12 +210,24 @@ public class ConsumerThread extends RunnableThread {
         }
     }
 
+    /**
+     * Execute line 6 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine6(ThreadContext currentContext) {
         ThreadContext newContext = null;
         newContext = new ThreadContext(5, currentContext.getProducedItem(), Consts.STATUS_THREAD_EXECUTING, this);
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 7 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine7(ThreadContext currentContext) {
         ThreadContext newContext = null;
         int nextStackPointer = 6;
@@ -208,6 +244,12 @@ public class ConsumerThread extends RunnableThread {
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 8 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine8(ThreadContext currentContext) {
         ThreadContext newContext = null;
         ProducerThread.getInstance().wakeupProducer();
@@ -215,6 +257,12 @@ public class ConsumerThread extends RunnableThread {
         this.currentContext = newContext;
     }
 
+    /**
+     * Execute line 9 of source code from Thread Consumer
+     *
+     * @param currentContext the current context of the thread which will
+     * advance one step further.
+     */
     private void executeLine9(ThreadContext currentContext) {
         ThreadContext newContext = null;
         callConsumeItem(this.getCurrentContext().getProducedItem());

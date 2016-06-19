@@ -30,7 +30,14 @@ public class ThreadContext {
     /*the current size of the buffer*/
     private int sizeOfBuffer;
     
-    
+    /**
+     * Each ThreadContext simulates the context (resources and status) of a given thread.<p>
+     * 
+     * @param stackPointer the next instruction to be executed.
+     * @param producedItem the item randomly integer produced/consumed
+     * @param status the current status of the thread - ready, running, blocked or to be blocked.
+     * @param ownerThread who have this conext.
+     */
     public ThreadContext(int stackPointer, int producedItem, int status, RunnableThread ownerThread) {
         this.stackPointer = stackPointer;
         this.item = producedItem;
@@ -38,23 +45,51 @@ public class ThreadContext {
         this.ownerThread = ownerThread;
         this.sizeOfBuffer = Buffer.getInstance().getBufferSize();
     }
-        
+    
+    /**
+     * Gets the next instruction to be fetched.
+     * @return the next instruction to be fetched
+     */
     public int getStackPointer() {
         return stackPointer;
     }
 
+    /**
+     * Gets the item to be produced or consumed.
+     * @return the item to be produced or consumed.
+     */
     public int getProducedItem() {
         return item;
     }
 
+    /**
+     * Get the current status of the thread.
+     * 
+     * @return  STATUS_THREAD_EXECUTING, if thread is running or schedulable.
+     *          STATUS_THREAD_BLOCKED, if thread cannot be scheduled (must wake up before).
+     *          STATUS_THREAD_READY_TO_EXEC, if thread is schedulable
+     *          STATUS_THREAD_GOING_BLOCK, if thread will be blocked in its next instruction.
+     */
     public int getStatus() {
         return status;
     }
-        
+    
+    /**
+     * Set the status f the thread.
+     * @param   newStatus, with one of the follwing values:
+     *          STATUS_THREAD_EXECUTING, if thread is running or schedulable.
+     *          STATUS_THREAD_BLOCKED, if thread cannot be scheduled (must wake up before).
+     *          STATUS_THREAD_READY_TO_EXEC, if thread is schedulable
+     *          STATUS_THREAD_GOING_BLOCK, if thread will be blocked in its next instruction.
+     */
     public void setStatus(int newStatus) {
         this.status = newStatus;
     }
     
+    /**
+     * Gets the current size of buffer
+     * @return the current size of buffer
+     */
     public int readRegisterBufferSize() {
         return this.sizeOfBuffer;
     }

@@ -19,6 +19,8 @@
 package Model;
 
 public class Consts {
+    
+    /*Consts needed in all program*/
     public static final int THREAD_PRODUCER = 1;
     public static final int THREAD_CONSUMER = 2;
     

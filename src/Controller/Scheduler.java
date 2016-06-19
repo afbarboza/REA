@@ -183,6 +183,12 @@ public class Scheduler {
         }
     }
     
+    /**
+     * Checks whether both producer and consumer threads are sleeping. <p>
+     * When this situation occurs, one cannot wake up the other. Both threads
+     * will sleep forever.
+     * @return void
+     */
     public boolean checkDeadlockStatus() {
         boolean lockedProducer = (pt.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
         boolean lockedConsumer = (ct.getCurrentContext().getStatus() == Consts.STATUS_THREAD_BLOCKED);
@@ -193,7 +199,12 @@ public class Scheduler {
         return false;
     }
     
+    /**
+     * Restart the entire program.
+     */
     public static void restart() {
-        
+        /**
+         * @todo code here
+         */
     }
 }
