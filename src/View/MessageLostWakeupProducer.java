@@ -81,7 +81,7 @@ public class MessageLostWakeupProducer extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("/home/alex/so1/REA/projeto/REA/REA/src/View/imgs/lost_wakeup_resized.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/imgs/lost_wakeup_resized.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
         jLabel1.setText("O buffer está vazio. Está thread irá dormir");

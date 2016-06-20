@@ -18,12 +18,9 @@
  */
 package View;
 
-import Model.*;
-import Controller.*;
+public class AboutProducerConsumer extends javax.swing.JFrame {
 
-public class MessageDeadlock extends javax.swing.JFrame {
-
-    private static MessageDeadlock instance;
+    private static AboutProducerConsumer instance;
 
     private static String portugueseTitleMessageBox;
     private static String portugueseStringMessage;
@@ -34,38 +31,58 @@ public class MessageDeadlock extends javax.swing.JFrame {
     /**
      * Creates new form MessageSleep
      */
-    private MessageDeadlock() {
+    private AboutProducerConsumer() {
         initComponents();
+        portugueseTitleMessageBox = "Como usar este programa: ";
+        portugueseStringMessage = "<html> "
+                                + "<ul>"
+                                    + "<li>O Program Counter e a linha selecionada em azul indicam a próxima linha de código a ser executada<p><br></li>"
+                                    + "<li>Count é o tamanho do atual do buffer, <b>uma variável global desprotegida</b><p><br></li>"
+                                    + "<li>Clique em 'Produtor' para executar a próxima linha do Produtor<p><br></li>"
+                                    + "<li>Clique em 'Consumidor' para executar a próxima linha do Consumidor<p><br></li>"
+                                    + "<li>Observe o efeito que o escalonamento surte no buffer<p><br></li>"
+                                    + "<li>Observe o efeito que o escalonamento surte no contexto da thread<p><br></li>"
+                                    + "<li>Quando quiser desfazer o escalonamento, clique em 'Retornar'<p><br></li>"
+                                    + "<li>O modo Verbose explica mais detalhadamente as ações de cada thread<p><br></li>"
+                                + "</ul>"
+                                + "</html>";
         
-        portugueseTitleMessageBox = "Dormindo para sempre!";
-        portugueseStringMessage = "<html>Produtor e consumidor irão dormir para sempre.<br>"
-                + "Você não pode acordá-las.<br>Por favor, execute o programa novamente</html>";
-        englishTitleMessageBox = "Sleeping forever!";
-        englishStringMessage = "<html>Both Producer and Consumer will sleep forever.<br>"
-                + "You cannot wake them up.<br>Please, run the program again.</html>";
+        englishTitleMessageBox = "How to use this program: ";
+        englishStringMessage = "<html> "
+                                + "<ul>"
+                                    + "<li>The Program Counter and the selected line in blue indicate the next line of code to be executed<p><br></li>"
+                                    + "<li>Count is the current buffer size, <b> unprotected global variable </b><p><br></li>"
+                                    + "<li>Click 'Producer' to run the next line of Producer<p><br></li>"
+                                    + "<li>Click on 'Consumer' to execute the next line Consumer<p><br></li>"
+                                    + "<li>Note the effect that scheduling has on the buffer<p><br></li>"
+                                    + "<li>Note the effect that scheduling has on context of each thread<p><br></li>"
+                                    + "<li>When you want to undo the scheduling , click ' Back '<p><br></li>"
+                                    + "<li>The Verbose mode explains in more detail the actions of each thread<p><br></li>"
+                                + "</ul>"
+                                + "</html>";
         this.setResizable(false);
     }
 
-    private static MessageDeadlock getInstance() {
+    private static AboutProducerConsumer getInstance() {
         if (instance == null) {
-            instance = new MessageDeadlock();
+            instance = new AboutProducerConsumer();
         }
         return instance;
     }
 
     public static void showEnglishInstance() {
-        MessageDeadlock.canReturn = false;
-        MessageDeadlock.getInstance().jLabel1.setText(englishStringMessage);
-        MessageDeadlock.getInstance().jLabel3.setText(englishTitleMessageBox);
-        MessageDeadlock.getInstance().setEnabled(true);
-        MessageDeadlock.getInstance().setVisible(true);
+        AboutProducerConsumer.canReturn = false;
+        AboutProducerConsumer.getInstance().jLabel1.setText(englishStringMessage);
+        AboutProducerConsumer.getInstance().jLabel3.setText(englishTitleMessageBox);
+        AboutProducerConsumer.getInstance().setEnabled(true);
+        AboutProducerConsumer.getInstance().setVisible(true);
     }
 
     public static void showPortugueseInstance() {
-        MessageDeadlock.getInstance().jLabel1.setText(portugueseStringMessage);
-        MessageDeadlock.getInstance().jLabel3.setText(portugueseTitleMessageBox);
-        MessageDeadlock.getInstance().setEnabled(true);
-        MessageDeadlock.getInstance().setVisible(true);
+        AboutProducerConsumer.getInstance().jLabel1.setText(portugueseStringMessage);
+        AboutProducerConsumer.getInstance().jLabel3.setText(portugueseTitleMessageBox);
+        AboutProducerConsumer.getInstance().setEnabled(true);
+        AboutProducerConsumer.getInstance().setVisible(true);
     }
 
     /**
@@ -77,15 +94,11 @@ public class MessageDeadlock extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/imgs/dead_smile_resized.png"))); // NOI18N
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("FreeMono", 0, 16)); // NOI18N
         jLabel1.setText("O buffer está vazio. Está thread irá dormir");
@@ -93,58 +106,29 @@ public class MessageDeadlock extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("FreeMono", 1, 24)); // NOI18N
         jLabel3.setText("Buffer Vazio!");
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addContainerGap(99, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(16, 16, 16)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addContainerGap(402, Short.MAX_VALUE))
         );
-
-        jLabel2.getAccessibleContext().setAccessibleName("lblMessageSleep");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //MessageDeadlock.getInstance().setVisible(false);
-        //MessageDeadlock.getInstance().setEnabled(false);
-        //MainFrame.getInstanceOfMainFrame().setVisible(true);
-        System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,13 +147,13 @@ public class MessageDeadlock extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MessageDeadlock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AboutProducerConsumer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MessageDeadlock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AboutProducerConsumer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MessageDeadlock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AboutProducerConsumer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MessageDeadlock.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AboutProducerConsumer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -191,15 +175,13 @@ public class MessageDeadlock extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MessageDeadlock().setVisible(true);
+                new AboutProducerConsumer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

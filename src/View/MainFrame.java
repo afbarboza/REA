@@ -119,7 +119,6 @@ public class MainFrame extends javax.swing.JFrame {
         jCheckBox1.setText("Enable verbose");
         jLabel15.setText("Idiom:");
         jMenu1.setText("Informations");
-        jMenuItem1.setText("The Producer/Consumer Problem");
         jMenuItem2.setText("License");
         jMenuItem3.setText("How to use this program");
     }
@@ -142,9 +141,9 @@ public class MainFrame extends javax.swing.JFrame {
         jCheckBox1.setText("Ativar verbose");
         jLabel15.setText("Idioma:");
         jMenu1.setText("Informações");
-        jMenuItem1.setText("O problema do Produtor/Consumidor");
         jMenuItem2.setText("Licença");
         jMenuItem3.setText("Como usar este programa");
+        setToolTipPortuguese();
     }
 
     /**
@@ -589,6 +588,100 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     /**
+     * Sets the tooltip for each element on the screen, in Portuguese.<p>
+     * @return void
+     */
+    public void setToolTipPortuguese() {
+        /*JPanel for thread Producer*/
+        jPanel4.setToolTipText("Contexto da Thread Produtor");
+        jTextField1.setToolTipText("Próxima linha de código do Produtor a ser executada");
+        jTextField2.setToolTipText("Item Produzido para o Buffer");
+        jTextField3.setToolTipText("Estado em que a Thread Produtor se encontra");
+        
+        /*JPanel for thread Consumer*/
+        jPanel3.setToolTipText("Contexto da Thread Consumidor");
+        jTextField4.setToolTipText("Próxima linha de código do Consumidor a ser executada");
+        jTextField5.setToolTipText("Item Consumido do Buffer");
+        jTextField6.setToolTipText("Estado em que a Thread Consumidor se encontra");
+        
+        /*source code*/
+        jLabel1.setToolTipText("Código fonte da Thread Produtor a ser executado");
+        jLabel3.setToolTipText("Código fonte da Thread Consumidor a ser executado");
+        
+        /*control buttons*/
+        jButton4.setToolTipText("Executar(escalonar) próxima linha da Thread Produtor");
+        jButton1.setToolTipText("Desfazer última ação do escalonamento.");
+        jButton3.setToolTipText("Executar(escalonar) próxima linha da Thread Consumidor");
+        
+        /*view informations*/
+        jPanel5.setToolTipText("Variável global desprotegida indicando o tamanho do buffer");
+        jTextField7.setToolTipText("Variável global desprotegida indicando o tamanho do buffer");
+        jPanel6.setToolTipText("Vetor de valores manipulado pelo Produtor e Consumidor");
+        JTextField slots[] = new JTextField[5];
+        slots[0] = jTextField8;
+        slots[1] = jTextField9;
+        slots[2] = jTextField10;
+        slots[3] = jTextField11;
+        slots[4] = jTextField12;
+        /*slots of buffer information*/
+        for (int i = 0; i < Consts.MAX_SIZE_BUFFER; i++) {
+            if (slots[i].getText().equals(" ") || slots[i].getText().equals("")) {
+                slots[i].setToolTipText("O buffer na posição "+ i + " não contém elemento.");
+            } else {
+                slots[i].setToolTipText("O buffer na posição "+ i + " está preenchido com o elemento " + slots[i].getText());
+            }
+        }
+       
+    }
+    
+    /**
+     * Sets the tooltip for each element on the screen, in Portuguese.<p>
+     * @return void
+     */
+    public void setToolTipEnglish() {
+                /*JPanel for thread Producer*/
+        jPanel4.setToolTipText("Context of Thread Producer");
+        jTextField1.setToolTipText("Next line of code from Producer to be executed");
+        jTextField2.setToolTipText("Item Produced for Buffer");
+        jTextField3.setToolTipText("Current State of Thread Producer");
+        
+        /*JPanel for thread Consumer*/
+        jPanel3.setToolTipText("Context of Thread Consumer");
+        jTextField4.setToolTipText("Next line of code from Consumer to be executed");
+        jTextField5.setToolTipText("Item Consumed from Buffer");
+        jTextField6.setToolTipText("Current State of Thread Consumer");
+        
+        /*source code*/
+        jLabel1.setToolTipText("Source code of Thread Producer to run");
+        jLabel3.setToolTipText("Source code of Consumer Thread to run");
+        
+        /*control buttons*/
+        jButton4.setToolTipText("Run (schedule) next line of Thread Producer");
+        jButton1.setToolTipText("Undo last action of scheduling");
+        jButton3.setToolTipText("Run (schedule) next line of Thread Consumer");
+        
+        /*view informations*/
+        jPanel5.setToolTipText("Unprotected global variable indicating the buffer size");
+        jTextField7.setToolTipText("Unprotected global variable indicating the buffer size");
+        jPanel6.setToolTipText("Array of values manipulated by the Producer and Consumer");
+        JTextField slots[] = new JTextField[5];
+        slots[0] = jTextField8;
+        slots[1] = jTextField9;
+        slots[2] = jTextField10;
+        slots[3] = jTextField11;
+        slots[4] = jTextField12;
+        /*slots of buffer information*/
+        for (int i = 0; i < Consts.MAX_SIZE_BUFFER; i++) {
+            if (slots[i].getText().equals(" ") || slots[i].getText().equals("")) {
+                slots[i].setToolTipText("The buffer at poition "+ i + " does not contain element.");
+            } else {
+                slots[i].setToolTipText("O buffer na posição "+ i + " is filled with the element " + slots[i].getText());
+            }
+        }
+    }
+    
+    
+    /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -637,7 +730,6 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -719,6 +811,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Program Counter");
+        jLabel2.setToolTipText("Próxima linha de código do produtor a ser executada");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Item");
@@ -774,11 +867,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
@@ -981,15 +1074,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Informações");
 
-        jMenuItem1.setText("O Problema do Produtor/Consumidor");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem3.setText("Como usar este programa");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem3.setText("Como usar este programa");
         jMenu1.add(jMenuItem3);
 
         jMenuItem2.setText("Licença");
@@ -1238,13 +1328,22 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        if (getLanguage() == 0) {
+            AboutFrame.getInstanceOfAboutFrame().showAboutFrame();
+        } else if (getLanguage() == 1) {
+            AboutFrameEnglish.getInstanceOfAboutFrame().showAboutFrame();
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if (getLanguage() == 0) {
+            AboutProducerConsumer.showPortugueseInstance();
+        } else if (getLanguage() == 1) {
+            AboutProducerConsumer.showEnglishInstance();
+        }
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1304,7 +1403,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel3;

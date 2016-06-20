@@ -67,8 +67,7 @@ public class AboutFrameEnglish extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sobre Este Programa");
+        setTitle("About This Program");
         setResizable(false);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/imgs/Gnu-logo._resizedjpg.png"))); // NOI18N
